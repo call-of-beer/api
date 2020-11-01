@@ -23,4 +23,15 @@ class AuthServices implements AuthServicesInterface
 
         return $newUser;
     }
+
+    public function Login($data)
+    {
+        if(!$token = auth()->attempt($data->only('email', 'password'))) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return response()->json([
+            'token' => $token
+        ], 200);
+    }
 }

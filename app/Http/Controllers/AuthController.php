@@ -20,13 +20,13 @@ class AuthController extends Controller
 
     public function Login(LoginRequest $request)
     {
-        if(!$token = auth()->attempt($request->only('email', 'password'))) {
-            return response(null, 401);
-        }
+        if ($request->validated())
+        {
+           return $this->authServices->Login($request);
 
-        return response()->json([
-            'token' => $token
-        ], 200);
+        } else {
+            return $this->errorService->responseWithError($request);
+        }
 
     }
 
