@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BeerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,9 @@ Route::group([
 
 Route::post('/register', [AuthController::class, 'Register']);
 Route::post('/login', [AuthController::class, 'Login']);
+
+Route::post('/beer/store', [BeerController::class, 'store']);
+Route::get('/beer/all', [BeerController::class, 'getAll']);
+Route::get('/beer/{id}', [BeerController::class, 'show']);
+Route::put('/beer/edit/{beer}', [BeerController::class, 'edit']);
+Route::delete('/beer/delete/{id}', [BeerController::class, 'delete']);
