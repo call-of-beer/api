@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Beer extends Model
+class Rating extends Model
 {
     use HasFactory;
 
     /**
      * @var string
      */
-    protected $table = 'beers';
+    protected $table = 'ratings';
 
     /**
      * The attributes that are mass assignable.
@@ -20,11 +20,16 @@ class Beer extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'alcohol_volume', 'country', 'description'
+        'aroma', 'color', 'taste', 'bitterness', 'texture', 'overall', 'comment'
     ];
 
-    public function ratings()
+    public function beers()
     {
-        return $this->hasMany(Rating::class);
+        return $this->belongsTo(Beer::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class);
     }
 }

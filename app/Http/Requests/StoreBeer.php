@@ -29,4 +29,18 @@ class StoreBeer extends FormRequest
             'country' => ['required', 'string', 'max:25']
         ];
     }
+
+    /**
+     * Custom message for validation
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'name.required' => 'Name is required!',
+            'alcohol_volume.required' => 'Alcohol by volume is required!',
+            'country.required' => 'Country is required!'
+        ];
+    }
 }
