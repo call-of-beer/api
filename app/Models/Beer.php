@@ -26,4 +26,22 @@ class Beer extends Model
    //     return $this->belongTo(Type::class, 'type_id');
    // }
 
+    /**
+     * @var string
+     */
+    protected $table = 'beers';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'alcohol_volume', 'country', 'description'
+    ];
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }
