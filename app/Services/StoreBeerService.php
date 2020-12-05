@@ -20,6 +20,7 @@ class StoreBeerService
         $beer->alcohol_volume = $data->alcohol_volume;
         $beer->country = $data->country;
         $beer->description = $data->description;
+        $beer->type_id = $data->type_id;
 
         if ($beer->save()) {
             return response()->json(

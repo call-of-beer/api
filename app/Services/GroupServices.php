@@ -38,7 +38,5 @@ class GroupServices
         return true;
 
     }
-
-
     
 }

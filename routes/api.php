@@ -7,6 +7,7 @@ use App\Http\Controllers\TypeController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\BeerController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,22 +46,31 @@ Route::group(['middleware' => ['role:admin']], function () {
 Route::post('/typeOfBeer/add', [TypeController::class, 'store']);
 Route::put('/typeOfBeer/update/{typeOfBeer}', [TypeController::class, 'update']);
 Route::delete('/typeOfBeer/delete/{typeOfBeer}', [TypeController::class, 'destroy']);
+
+//user
+Route::post('/user/add', [UserController::class, 'store']);
 });
 
 
 
 Route::group(['middleware' => ['role:drinker|admin']], function () {    //routy dostępne dla zalogowanych userów i admina
 
+    //group
     Route::post('/group/add', [GroupController::class, 'store']);
     Route::get('/group/all', [GroupController::class, 'getAllGroups']);
     Route::get('/group/{groupId}', [GroupController::class, 'getGroup']);
-    Route::put('/group/update/{group}', [GroupController::class, 'editGroup']);
+    Route::put('/group/update/{groupid}', [GroupController::class, 'editGroup']);
     Route::delete('/group/delete/{groupId}', [GroupController::class, 'deleteGroup']);
     Route::post('/group/{groupId}/addUser', [GroupController::class, 'addUserToGroup']);
     Route::delete('/group/{group}/{user}/delete', [GroupController::class, 'removeUserFromGroup']);
+    Route::get('/user/{userId}/group/all/', [GroupController::class, 'getAllGroupsWhereUserIsMember']);
 
     
-    Route::get('/user/{userId}/group/all/', [GroupController::class, 'getAllGroupsWhereUserIsMember']);
+    //user
+    Route::get('/user/{id}', [UserController::class, 'show']);
+    Route::get('/users', [UserController::class, 'showAll']);
+    Route::patch('/user/{id}/edit', [UserController::class, 'update']);
+    Route::delete('/user/delete/{id}', [UserController::class, 'destroy']);
 
 });
 

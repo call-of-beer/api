@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\ErrorService;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Group;
-use App\Models\User;
+use App\Services\ErrorService;
+use App\Services\GroupServices;
 use App\Http\Requests\AddUserToGroupRequest;
 use App\Http\Requests\AddGroupRequest;
+use App\Models\Group;
+use App\Models\User;
 use DB;
-use App\Services\GroupServices;
 
 class GroupController extends Controller
 {
@@ -27,8 +27,14 @@ class GroupController extends Controller
     public function getGroup($groupId)
     {
         $groupOne = DB::table('group_user')
-        ->where('group_id', $groupId)
-        ->first();
+        ->where('group_id', $groupId)->get();
+
+        if(!$groupOne){
+            return response()->json([
+                'message' => "Data not found!",
+                'data' => $groupOne,
+            ], 400);
+        }
 
         return response()->json([
             'message' => "Data found!",
@@ -53,7 +59,15 @@ class GroupController extends Controller
         $group = DB::table('group_user')
         ->where('user_id', Auth::user()->id)
         ->get();
+
+        if(!$group){
+        return response()->json([
+            'message' => "Data not found!",
+            'data' => $group,
+        ], 400);
         
+    
+    }
         return response()->json([
             'message' => "Data found!",
             'data' => $group,
@@ -74,8 +88,9 @@ class GroupController extends Controller
     }
 
 
-    public function editGroup(Request $request, Group $group)
+    public function editGroup(Request $request, $groupid)
     {
+        $group = Group::find($groupid);
 
         if(!$this->groupServices->authorizeUser($group)) return response()->json(['message' => 'Unauthorized'], 401);
 
@@ -117,9 +132,13 @@ class GroupController extends Controller
 
         $group = Group::find($groupId);
 
+        if(!$group) return response()->json(['message' => 'Data not fund!'], 400);
+
         if(!$this->groupServices->authorizeUser($group)) return response()->json(['message' => 'Unauthorized'], 401);
 
         $user = $this->user->get()->where('email', $request->email)->first();
+
+        if(!$user) return response()->json(['message' => 'User can not be found'], 400);
         
         if(DB::table('group_user')
                 ->where('user_id', $user->id)
@@ -140,6 +159,8 @@ class GroupController extends Controller
     {
 
         $group = Group::find($groupId);
+
+        if(!$group) return response()->json(['message' => 'Data not fund!'], 400);
 
         if(!$this->groupServices->authorizeUser($group) && Auth::user()->id!=$userId) return response()->json(['message' => 'Unauthorized'], 401);
         //usera z grupy może usunąć moderator grupy, admin, bądź sam user

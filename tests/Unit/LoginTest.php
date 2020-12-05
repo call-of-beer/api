@@ -42,7 +42,7 @@ class LoginTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        //dump($response->getContent());
+        dump($response->getContent());
 
     }
 

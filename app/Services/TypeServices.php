@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Type;
 
-class StoreBeerTypeService
+class TypeServices
 {
 
     public function store($data)
@@ -14,7 +14,10 @@ class StoreBeerTypeService
         $typeOfBeer->name  = $data->name;
         $typeOfBeer->save();
 
-        return response()->json('Type of beer added to database', 200);
+        return response()->json([
+            'message'=>'Type of beer added to database',
+            'data'=>$typeOfBeer
+        ], 200);
     }
 
 

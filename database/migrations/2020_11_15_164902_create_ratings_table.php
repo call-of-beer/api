@@ -25,8 +25,6 @@ class CreateRatingsTable extends Migration
                 $table->string('comment')->nullable();
                 $table->unsignedInteger('beer_id');
                 $table->unsignedInteger('user_id');
-                $table->foreign('beer_id')->references('id')->on('beers');
-                $table->foreign('user_id')->references('id')->on('users');
                 $table->timestamps();
             }
         );

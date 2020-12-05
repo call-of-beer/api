@@ -3,36 +3,45 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Type;
 use App\Http\Requests\AddTypeOfBeerRequest;
 use App\Services\ErrorService;
-use App\Services\StoreBeerTypeService;
+use App\Services\TypeServices;
+use App\Models\Type;
+use App\Models\Beer;
 
 
 
 class TypeController extends Controller
 {
 
-    public function __construct(ErrorService $errorService, StoreBeerTypeService $storeBeerTypeService)
+    public function __construct(ErrorService $errorService, TypeServices $typeServices)
     {
         $this->errorService = $errorService;
-        $this->storeBeerTypeService = $storeBeerTypeService;
+        $this->typeServices = $typeServices;
     }
 
 
     public function getAll()
     {
         $typesOfBeer = Type::with(['beers'])->get();
+
+        if(!$typesOfBeer) return response()->json(['message' => 'Data not fund!'], 400);
         
-        return response ($typesOfBeer, 200);
+        return response()->json([
+            'data'=>$typesOfBeer
+        ], 200);
     }
 
 
-    public function getOne(Type $typeOfBeer)
+    public function getOne($typeOfBeer)
     {
-        $type = Type::with(['beers'])->whereIn('id', $typeOfBeer)->get();
-        
-        return response ($type, 200);
+        if(!Type::find($typeOfBeer)) return response()->json(['message' => 'Data not fund!'], 400);
+
+        $type = Type::with(['beers'])->where('id', $typeOfBeer)->get();
+
+        return response()->json([
+            'data'=>$type]
+            , 200);
     }
 
 
@@ -44,7 +53,7 @@ class TypeController extends Controller
         }
         else
         {
-            return $this->storeBeerTypeService->store($request);
+            return $this->typeServices->store($request);
         }
     }
     
@@ -53,21 +62,34 @@ class TypeController extends Controller
     {
         
         $data = $request->validate([
-            'name' => 'string'
+            'name' => 'string',
+            'description' => 'string'
         ]);
 
         $typeOfBeer->update($data);
 
-        return response ("Data updated!", 200);
+        return response()->json([
+            'message'=>'Data updated!'
+        ], 200);
     }
 
-    public function destroy(Type $typeOfBeer)
+    
+    public function destroy($id)
     {
+        $typeOfBeer = Type::find($id);
+
+        if(!$typeOfBeer) return response()->json(['message' => 'Data not fund!'], 400);
+
+        if(Beer::where('type_id', $id)->first()){
+        return response()->json([
+            'message'=>'Cant delete data. Used in beer model. Delete or edit beers with this value first.']
+            , 400);
+        }
+
         $typeOfBeer->delete();
 
-        //zrobić wyjątek w przypadku, gdy dana wartość jest już użyta w modelu piwa
-        //że najpierw trzeba skasować piwo z tą wartością, a dopiero samą wartość
-
-        return response ('Data deleted.', 200);
+        return response()->json([
+            'message'=>'Data deleted.'
+        ], 200);
     }
 }

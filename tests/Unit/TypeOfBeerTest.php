@@ -229,6 +229,23 @@ class TypeOfBeerTest extends TestCase
 
     }
 
+    public function test_cant_delete_if_value_used_in_beer()
+    {
+        $this->actingAs($this->user);
+        
+        $type=$this->typeOfBeer;
+
+        $response = $this->json('DELETE',"/api/typeOfBeer/delete/$type->id");
+
+        $response->assertStatus(403);
+
+        //dump($response->getContent());
+
+        $response = $this->assertDatabaseHas('types',['name'=>$type['name']]);
+    
+
+    }
+
 
 
 

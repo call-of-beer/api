@@ -622,18 +622,5 @@ class GroupTest extends TestCase
         
     }
 
-    /*
-    testy 
-    czy jak usuwam usera to tylko z jednej grupy, czy w innych zostaje done
-    czy jak usuwam grupe to czy usuwa pivoty done
-    edycja jako moderator i admin done
-    ogólnie sprawdzić czy wszystkie role mogą lub nie mogą wedle założeń done
-    poprawić requesty
-    poprzenosić co się da, by wszystko nie bbyło w controllerze
-
-
-
-
-    */
     
 }
