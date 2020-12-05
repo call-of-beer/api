@@ -1,44 +1,42 @@
 <?php
 namespace App\Services;
 
+use App\Services\Interfaces\GroupServiceInterface;
+use App\Traits\ResponseDataTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Group;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
-class GroupServices
+class GroupServices implements GroupServiceInterface
 {
+    use ResponseDataTrait;
 
-    public function store($data)
+    public function getAllGroups()
     {
-        $group = new Group;
-        $group->name  = $data->name;
-        $group->moderator_id  = Auth::User()->id;
-        $group->save();
+        $groupAll = Group::with(['tastings', 'users'])->get();
 
-        $user = Auth::User();
-
-        $user->groups()->attach($group);
-
-        return response()->json([
-            'message' =>'Group added to database',
-            'data' =>$group], 200);
-    }
-    
-    public function authorizeUser($data){
-
-        $user = Auth::user();
-
-        if($user->id!=$data->moderator_id && $user->hasRole('admin')==false)
-        {
-            return false;
-        }
-
-        return true;
-
+        return $this->responseWithData($groupAll, 200);
     }
 
+    public function getGroupById($group)
+    {
+        $groupOne = DB::table('group_user')
+            ->where('group_id', $group)->with('users')
+            ->first();
 
-    
+        return $this->responseWithData($groupOne, 200);
+    }
+
+    public function getAllGroupsWhereUserIsMember()
+    {
+        $user = auth()->user()->id;
+        $group = DB::table('group_user')
+            ->where('user_id', $user)
+            ->get();
+
+        return $this->responseWithData($group, 200);
+    }
 }

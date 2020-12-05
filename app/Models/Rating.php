@@ -25,11 +25,16 @@ class Rating extends Model
 
     public function beers()
     {
-        return $this->belongsTo(Beer::class);
+        return $this->belongsTo(Beer::class, 'beer_id', 'id');
     }
 
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function comment()
+    {
+        return $this->hasOne(Comment::class);
     }
 }

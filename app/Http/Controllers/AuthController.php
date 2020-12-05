@@ -6,16 +6,16 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Services\AuthServices;
 use App\Services\ErrorService;
+use App\Traits\ResponseDataTrait;
 
 class AuthController extends Controller
 {
+    use ResponseDataTrait;
     private $authServices;
-    private $errorService;
 
-    public function __construct(AuthServices $authServices, ErrorService $errorService)
+    public function __construct(AuthServices $authServices)
     {
         $this->authServices = $authServices;
-        $this->errorService = $errorService;
     }
 
     public function Login(LoginRequest $request)
@@ -25,7 +25,7 @@ class AuthController extends Controller
            return $this->authServices->Login($request);
 
         } else {
-            return $this->errorService->responseWithError($request);
+            return $this->responseWithError($request);
         }
 
     }
@@ -38,15 +38,13 @@ class AuthController extends Controller
             return response()->json($result, 200);
 
         } else {
-            return $this->errorService->responseWithError($request);
+            return $this->responseWithError($request);
         }
     }
 
     public function Logout()
     {
         auth()->logout();
-        return response()->json([
-            'message' => 'Logout successful'
-        ], 200);
+        return $this->responseWithMessage('Logout successful', 200);
     }
 }

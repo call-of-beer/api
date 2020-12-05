@@ -59,14 +59,28 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-
     public function groups()
     {
-        return $this->belongsToMany(Group::class)->withTimestamps();
+        return $this->belongsToMany('App\Models\Group', 'group_user', 'user_id', 'group_id');
     }
-    
+
     public function ratings()
     {
         return $this->hasMany(Rating::class);
+    }
+
+    public function tastings()
+    {
+        return $this->hasMany(Tasting::class);
+    }
+
+    public function beers()
+    {
+        return $this->hasMany(Beer::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

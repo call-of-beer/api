@@ -11,12 +11,10 @@ use App\Http\Requests\StoreRating;
 class RatingController extends Controller
 {
     private $storeRatingService;
-    private $errorService;
 
-    public function __construct(StoreRatingService $storeRatingService, ErrorService $errorService)
+    public function __construct(StoreRatingService $storeRatingService)
     {
         $this->storeRatingService = $storeRatingService;
-        $this->errorService = $errorService;
     }
 
     public function store(StoreRating $request)

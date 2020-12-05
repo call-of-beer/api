@@ -8,10 +8,13 @@ use App\Events\NewUserHasBeenRegistered;
 use App\Mail\WelcomeNewUser;
 use App\Models\User;
 use App\Services\Interfaces\AuthServicesInterface;
+use App\Traits\ResponseDataTrait;
 use Illuminate\Support\Facades\Mail;
 
 class AuthServices implements AuthServicesInterface
 {
+    use ResponseDataTrait;
+
     public function Register($data)
     {
         $newUser = new User();
@@ -27,11 +30,9 @@ class AuthServices implements AuthServicesInterface
     public function Login($data)
     {
         if(!$token = auth()->attempt($data->only('email', 'password'))) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return $this->responseJSONToken('Unauthorized', null);
         }
 
-        return response()->json([
-            'token' => $token
-        ], 200);
+        return $this->responseJSONToken(null, $token);
     }
 }

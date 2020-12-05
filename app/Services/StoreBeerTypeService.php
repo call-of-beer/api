@@ -7,7 +7,6 @@ use App\Models\Type;
 
 class StoreBeerTypeService
 {
-
     public function store($data)
     {
         $typeOfBeer = new Type;
@@ -16,6 +15,4 @@ class StoreBeerTypeService
 
         return response()->json('Type of beer added to database', 200);
     }
-
-
 }

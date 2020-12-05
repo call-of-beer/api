@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Models\Rating;
+use App\Traits\ResponseDataTrait;
 
 class StoreRatingService
 {
+    use ResponseDataTrait;
     /**
      * Store a newly created rating.
      *
@@ -27,21 +29,11 @@ class StoreRatingService
         $rating->user_id = $data->user_id;
 
         if ($rating->save()) {
-            return response()->json(
-                [
-                'success' => true,
-                'message' => 'Rating has been added to database.'
-                ], 201
-            );
+            $this->responseWithMessage('Rating has been added to database.', 201);
         } else {
-            return response()->json(
-                [
-                'success' => false,
-                'message' => 'Sorry, rating could not be added.',
-                ], 500
-            );
+            $this->responseWithMessage('Sorry, rating could not be added.', 500);
         }
     }
 
 
-} 
+}
