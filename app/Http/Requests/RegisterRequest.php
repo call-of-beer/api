@@ -30,4 +30,9 @@ class RegisterRequest extends FormRequest
             'password' => 'required|confirmed'
         ];
     }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
+    } //tutaj zapobiegam przekierowaniu, bo na mobilce pokazuje 200 i wywala i ogólnie koniec świata ;<
 }
