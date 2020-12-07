@@ -20,15 +20,15 @@ class Rating extends Model
      * @var array
      */
     protected $fillable = [
-        'aroma', 'color', 'taste', 'bitterness', 'texture', 'overall', 'comment'
+        'aroma', 'color', 'taste', 'bitterness', 'texture'
     ];
 
-    public function beers()
+    public function beer()
     {
         return $this->belongsTo(Beer::class, 'beer_id', 'id');
     }
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }

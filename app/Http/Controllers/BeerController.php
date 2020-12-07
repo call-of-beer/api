@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
 use App\Models\Tasting;
+use App\Models\TypeBeer;
 use App\Services\BeerService;
 use App\Services\joinBeerToTastingService;
 use App\Traits\ResponseDataTrait;
 use Illuminate\Http\Request;
 use App\Services\StoreUpdateDeleteBeerService;
-use App\Services\ErrorService;
 use App\Models\Beer;
 use App\Http\Requests\StoreBeer;
 
@@ -29,10 +30,10 @@ class BeerController extends Controller
         $this->joinBeerService = $joinBeerService;
     }
 
-    public function store(StoreBeer $request)
+    public function store(StoreBeer $request, TypeBeer $type_beer, Country $country)
     {
         if($request->validated()) {
-            return $this->storeBeerService->storeBeer($request);
+            return $this->storeBeerService->storeBeer($request, $type_beer, $country);
         } else {
             return $this->responseWithError($request);
         }
@@ -53,38 +54,16 @@ class BeerController extends Controller
         return $this->joinBeerService->joinBeerToTasting($beer, $tasting);
     }
 
-    public function show($id)
+    public function show(Beer $beer)
     {
-        $beer = Beer::find($id);
-
-        if (!$beer) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, beer with id ' . $id . ' cannot be found.',
-            ], 400);
-        }
-
-        return response()->json($beer, 200);
+        return $this->beerService->getBeerById($beer);
     }
 
-    /**
-     * Update the specified beer.
-     *
-     * @param StoreBeer $request
-     * @param Beer $beer
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function edit(StoreBeer $request, Beer $beer)
     {
         return $this->storeBeerService->editBeer($request, $beer);
     }
 
-    /**
-     * Remove the specified beer.
-     *
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function delete(Beer $beer)
     {
         return $this->storeBeerService->deleteBeer($beer);

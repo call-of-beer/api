@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ingredients extends Model
+class TasteAttributes extends Model
 {
     use HasFactory;
 
-    protected $table = 'ingredients';
+    protected $table = 'taste_attributes';
 
     protected $fillable = [
         'name'
@@ -20,8 +20,8 @@ class Ingredients extends Model
         return $this->belongsTo(Beer::class, 'beer_id', 'id');
     }
 
-    public function grades()
+    public function grading_scale()
     {
-        return $this->hasMany(Grades::class);
+        return $this->hasOne(GradingScale::class);
     }
 }

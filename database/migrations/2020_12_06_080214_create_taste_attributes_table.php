@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGradingScalesTable extends Migration
+class CreateTasteAttributesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateGradingScalesTable extends Migration
      */
     public function up()
     {
-        Schema::create('grading_scales', function (Blueprint $table) {
+        Schema::create('taste_attributes', function (Blueprint $table) {
             $table->id();
-            $table->integer('value');
-            $table->string('title');
+            $table->string('name');
+            $table->integer('beer_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateGradingScalesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grading_scales');
+        Schema::dropIfExists('taste_attributes');
     }
 }

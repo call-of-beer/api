@@ -18,6 +18,11 @@ class Beer extends Model
         'name', 'alcohol_volume', 'country', 'description'
     ];
 
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id', 'id');
+    }
+
     public function ratings()
     {
         return $this->hasMany(Rating::class);
@@ -40,6 +45,11 @@ class Beer extends Model
 
     public function types()
     {
-        return $this->belongsTo(TypeBeer::class, 'typebeer_id', 'id');
+        return $this->belongsTo(TypeBeer::class, 'type_beer_id', 'id');
+    }
+
+    public function tasteAttributes()
+    {
+        return $this->hasMany(TasteAttributes::class);
     }
 }

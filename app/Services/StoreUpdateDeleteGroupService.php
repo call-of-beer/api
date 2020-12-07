@@ -17,7 +17,6 @@ class StoreUpdateDeleteGroupService implements StoreUpdateDeleteGroupServiceInte
         $group = new Group();
         $group->name  = $data->name;
         $group->moderator_id = auth()->user()->id;
-        auth()->user()->givePermissionTo('admin group');
 
         $group->save();
 
@@ -26,22 +25,32 @@ class StoreUpdateDeleteGroupService implements StoreUpdateDeleteGroupServiceInte
 
     public function editGroup($group, $request)
     {
-        if(!$group) return $this->responseWithMessage('Data not found', 400);
+        if (auth()->user()->can($group->id))
+        {
+            if(!$group) return $this->responseWithMessage('Data not found', 400);
 
-        $dataValidated = $request->validate([
-            'name' => 'string',
-            'moderator_id' => 'integer'
-        ]);
+            $dataValidated = $request->validate([
+                'name' => 'string',
+                'moderator_id' => 'integer'
+            ]);
 
-        $group->update($dataValidated);
+            $group->update($dataValidated);
 
-        return $this->responseWithMessage('Data updated!', 200);
+            return $this->responseWithMessage('Data updated!', 200);
+        } else {
+            return $this->responseWithMessage('User has no permission', 200);
+        }
     }
 
     public function deleteGroup($group)
     {
-        $group->delete();
+        if (auth()->user()->can($group->id))
+        {
+            $group->delete();
 
-        return $this->responseWithData('Group has been removed', 200);
+            return $this->responseWithData('Group has been removed', 200);
+        } else {
+            return $this->responseWithMessage('User has no permission', 200);
+        }
     }
 }

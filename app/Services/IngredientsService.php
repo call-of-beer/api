@@ -14,7 +14,7 @@ class IngredientsService implements IngredientsServiceInterface
 
     public function getAll()
     {
-        $result = Ingredients::with('user')->get();
+        $result = Ingredients::with(['beer', 'grades'])->get();
 
         return $this->responseWithData($result, 200);
     }

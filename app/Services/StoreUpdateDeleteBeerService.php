@@ -10,20 +10,19 @@ class StoreUpdateDeleteBeerService implements StoreUpdateDeleteBeersInterface
 {
     use ResponseDataTrait;
 
-    public function storeBeer($data)
+    public function storeBeer($data, $type_beer, $country)
     {
         $beer = new Beer;
         $beer->name  = $data->name;
         $beer->alcohol_volume = $data->alcohol_volume;
-        $beer->country = $data->country;
+        $beer->country_id = $country->id;
         $beer->description = $data->description;
         $beer->user_id = auth()->user()->id;
+        $beer->type_beer_id = $type_beer->id;
 
-        if ($beer->save()) {
-            return $this->responseWithData('Beer has been to database', 200);
-        } else {
-            return $this->responseWithData('Sorry, beer could not be added.', 200);
-        }
+        $beer->save();
+
+        return $this->responseWithData('Beer has been added to database', 200);
     }
 
     public function editBeer($data, $beer)
