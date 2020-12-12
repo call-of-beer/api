@@ -20,6 +20,7 @@ class CreateBeersTable extends Migration
                 $table->string('alcohol_volume');
                 $table->string('country');
                 $table->string('description')->nullable();
+                $table->integer('type_id');
                 $table->timestamps();
             }
         );
