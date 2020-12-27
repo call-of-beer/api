@@ -19,6 +19,7 @@ class BeerObserver
         $beer->avgColor = $avgColor;
         $beer->avgBitterness = $avgBitterness;
         $beer->avgTexture = $avgTexture;
+        $beer->overall = ($avgAroma+$avgTaste+$avgColor+$avgBitterness+$avgTexture)/5;
 
         $beer->save();
     }

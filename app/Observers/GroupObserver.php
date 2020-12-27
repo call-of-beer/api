@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\Models\Group;
-use App\Models\User;
 use Spatie\Permission\Models\Permission;
 
 class GroupObserver

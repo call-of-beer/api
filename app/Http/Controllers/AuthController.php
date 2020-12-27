@@ -20,13 +20,8 @@ class AuthController extends Controller
 
     public function Login(LoginRequest $request)
     {
-        if ($request->validated())
-        {
-           return $this->authServices->Login($request);
-
-        } else {
-            return $this->responseWithError($request);
-        }
+        return $request->validated() ? $this->authServices->Login($request)
+            : $this->responseWithMessage('Error', 401);
 
     }
 

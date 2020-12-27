@@ -27,6 +27,7 @@ class CreateBeersTable extends Migration
             $table->float('avgColor')->nullable();
             $table->float('avgBitterness')->nullable();
             $table->float('avgTexture')->nullable();
+            $table->float('overall')->nullable();
             $table->timestamps();
         });
     }

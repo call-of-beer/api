@@ -9,6 +9,7 @@ use App\Mail\WelcomeNewUser;
 use App\Models\User;
 use App\Services\Interfaces\AuthServicesInterface;
 use App\Traits\ResponseDataTrait;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class AuthServices implements AuthServicesInterface
@@ -29,10 +30,12 @@ class AuthServices implements AuthServicesInterface
 
     public function Login($data)
     {
-        if(!$token = auth()->attempt($data->only('email', 'password'))) {
-            return $this->responseJSONToken('Unauthorized', null);
+        if (Auth::guard('client')->attempt($data)) {
+            $user = Auth::guard('client');
+            $token = $user->createToken('api')->accessToken;
+            return response()->json(['token' => $token], 200);
+        } else {
+            return response()->json(['error' => 'UnAuthorised'], 401);
         }
-
-        return $this->responseJSONToken(null, $token);
     }
 }

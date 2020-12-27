@@ -32,11 +32,9 @@ class BeerController extends Controller
 
     public function store(StoreBeer $request, TypeBeer $type_beer, Country $country)
     {
-        if($request->validated()) {
-            return $this->storeBeerService->storeBeer($request, $type_beer, $country);
-        } else {
-            return $this->responseWithError($request);
-        }
+        return $request->validated() ?
+            $this->storeBeerService->storeBeer($request, $type_beer, $country) :
+            $this->responseWithError($request);
     }
 
     public function getAll()
