@@ -59,7 +59,7 @@ Route::group(['middleware' => ['role:drinker|admin']], function () {    //routy 
     Route::post('/group/{groupId}/addUser', [GroupController::class, 'addUserToGroup']);
     Route::delete('/group/{group}/{user}/delete', [GroupController::class, 'removeUserFromGroup']);
 
-    
+
     Route::get('/user/{userId}/group/all/', [GroupController::class, 'getAllGroupsWhereUserIsMember']);
 
 });
