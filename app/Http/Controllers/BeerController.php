@@ -2,120 +2,68 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
+use App\Models\Tasting;
+use App\Models\TypeBeer;
+use App\Services\BeerService;
+use App\Services\joinBeerToTastingService;
+use App\Traits\ResponseDataTrait;
 use Illuminate\Http\Request;
-use App\Services\StoreBeerService;
-use App\Services\ErrorService;
+use App\Services\StoreUpdateDeleteBeerService;
 use App\Models\Beer;
 use App\Http\Requests\StoreBeer;
 
 class BeerController extends Controller
 {
     private $storeBeerService;
-    private $errorService;
+    private $beerService;
+    private $joinBeerService;
+    use ResponseDataTrait;
 
-    public function __construct(StoreBeerService $storeBeerService, ErrorService $errorService)
+    public function __construct(
+        StoreUpdateDeleteBeerService $storeBeerService,
+        BeerService $beerService,
+        joinBeerToTastingService $joinBeerService)
     {
         $this->storeBeerService = $storeBeerService;
-        $this->errorService = $errorService;
+        $this->beerService = $beerService;
+        $this->joinBeerService = $joinBeerService;
     }
 
-    public function store(StoreBeer $request)
+    public function store(StoreBeer $request, TypeBeer $type_beer, Country $country)
     {
-        if($request->validated()) {
-            return $this->storeBeerService->store($request);
-        } else {
-            return $this->errorService->responseWithError($request);
-        }
+        return $request->validated() ?
+            $this->storeBeerService->storeBeer($request, $type_beer, $country) :
+            $this->responseWithError($request);
     }
 
-    /**
-     * Display a listing of beers.
-     *
-     * @return Response
-     */
     public function getAll()
     {
-        $beer = Beer::get()->toArray();
-        return response()->json($beer, 200);
+        return $this->beerService->getAllBeers();
     }
 
-    /**
-     * Display beer by id
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function show($id)
+    public function getMyBeers()
     {
-        $beer = Beer::find($id);
-
-        if (!$beer) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, beer with id ' . $id . ' cannot be found.',
-            ], 400);
-        }
-
-        return response()->json($beer, 200);
+        return $this->beerService->getAllMyBeers();
     }
 
-    /**
-     * Update the specified beer.
-     *
-     * @param StoreBeer $request
-     * @param Beer $beer
-     * @return \Illuminate\Http\JsonResponse
-     */
+    public function joinBeerToTasting(Beer $beer, Tasting $tasting)
+    {
+        return $this->joinBeerService->joinBeerToTasting($beer, $tasting);
+    }
+
+    public function show(Beer $beer)
+    {
+        return $this->beerService->getBeerById($beer);
+    }
+
     public function edit(StoreBeer $request, Beer $beer)
     {
-        if (!$beer) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, beer cannot be found.',
-            ], 400);
-        }
-
-        $updated = $beer->update($request->all());
-
-        if ($updated) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Data has been updated',
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, data could not be updated.',
-            ], 500);
-        }
+        return $this->storeBeerService->editBeer($request, $beer);
     }
 
-    /**
-     * Remove the specified beer.
-     *
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function delete($id)
+    public function delete(Beer $beer)
     {
-        $beer = Beer::find($id);
-
-        if (!$beer) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, beer with id ' . $id . ' cannot be found.',
-            ], 400);
-        }
-
-        if ($beer->delete()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Beer was successfully removed',
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Beer could not be deleted.',
-            ], 500);
-        }
+        return $this->storeBeerService->deleteBeer($beer);
     }
 }

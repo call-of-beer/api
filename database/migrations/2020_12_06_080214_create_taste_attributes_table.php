@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupUserTable extends Migration
+class CreateTasteAttributesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateGroupUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('group_user', function (Blueprint $table) {
-            $table->primary(['user_id', 'group_id']);
-            $table->integer('user_id');
-            $table->integer('group_id');
+        Schema::create('taste_attributes', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->integer('beer_id');
             $table->timestamps();
-            $table->engine = "InnoDB";
         });
     }
 
@@ -29,6 +28,6 @@ class CreateGroupUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_user');
+        Schema::dropIfExists('taste_attributes');
     }
 }

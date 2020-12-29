@@ -7,7 +7,6 @@ use App\Models\Type;
 
 class TypeServices
 {
-
     public function store($data)
     {
         $typeOfBeer = new Type;
@@ -19,6 +18,4 @@ class TypeServices
             'data'=>$typeOfBeer
         ], 200);
     }
-
-
 }
