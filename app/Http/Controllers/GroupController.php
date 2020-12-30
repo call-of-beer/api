@@ -31,6 +31,7 @@ class GroupController extends Controller
         $this->groupServices = $groupServices;
         $this->joinDeleteUserGroupService = $joinDeleteUserGroupService;
         $this->storeUpdateDeleteGroupService = $storeUpdateDeleteGroupService;
+        $this->middleware(['auth:api']);
     }
 
     public function store(AddGroupRequest $request)

@@ -23,9 +23,7 @@ class GroupServices implements GroupServiceInterface
 
     public function getGroupById($group)
     {
-        $groupOne = DB::table('group_user')
-            ->where('group_id', $group)->with('users')
-            ->first();
+        $groupOne = Group::where('id', $group)->get();
 
         return $this->responseWithData($groupOne, 200);
     }

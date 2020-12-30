@@ -37,11 +37,15 @@ Route::group(
     }
 );
 
-Route::post('/register', [AuthController::class, 'Register']);
-Route::post('/login', [AuthController::class, 'Login']);
+Route::group([
+    'prefix' => 'auth'
+], function ($group) {
+    Route::post('/register', [AuthController::class, 'Register']);
+    Route::post('/login', [AuthController::class, 'Login']);
 
+});
 
-Route::group(['middleware' => ['role:drinker|admin']], function () {    //routy dostępne dla zalogowanych userów i admina
+Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    //routy dostępne dla zalogowanych userów i admina
 
 
     Route::post('/group/add', [GroupController::class, 'store']);
@@ -69,10 +73,12 @@ Route::group(['middleware' => ['role:drinker|admin']], function () {    //routy 
     Route::delete('/beer/delete/{id}', [BeerController::class, 'delete']);
 });
 
+Route::delete('/group/{group}', [GroupController::class, 'destroy']);
+
 Route::group([
     'middleware' => ['can:admin group']
 ], function () {
-    Route::delete('/group/{group}', [GroupController::class, 'destroy']);
+
     Route::post('/group/{group}', [GroupController::class, 'addUserToGroup']);
 });
 

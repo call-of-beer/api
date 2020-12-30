@@ -30,12 +30,13 @@ class AuthServices implements AuthServicesInterface
 
     public function Login($data)
     {
-        if (Auth::guard('client')->attempt($data)) {
-            $user = Auth::guard('client');
-            $token = $user->createToken('api')->accessToken;
-            return response()->json(['token' => $token], 200);
-        } else {
-            return response()->json(['error' => 'UnAuthorised'], 401);
+        if(!$token = auth()->attempt($data->only('email', 'password'))) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
+
+        return response()->json([
+            'token' => $token,
+            'role' => auth()->user()->getRoleNames()
+        ], 200);
     }
 }
