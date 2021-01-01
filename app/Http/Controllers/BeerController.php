@@ -37,6 +37,13 @@ class BeerController extends Controller
             $this->responseWithError($request);
     }
 
+    public function edit(StoreBeer $request, Beer $beer)
+    {
+        return $request->validated() ?
+            $this->storeBeerService->editBeer($request, $beer) :
+            $this->responseWithError($request);
+    }
+
     public function getAll()
     {
         return $this->beerService->getAllBeers();
@@ -47,6 +54,21 @@ class BeerController extends Controller
         return $this->beerService->getAllMyBeers();
     }
 
+    public function getBeersOfType(TypeBeer $typeBeer)
+    {
+        return $this->beerService->getBeerOfType($typeBeer);
+    }
+
+    public function getBeersOfCountry(Country $country)
+    {
+        return $this->beerService->getBeerOfCountry($country);
+    }
+
+    public function getBeerOfTasting(Tasting $tasting)
+    {
+        return $this->beerService->getBeerOfTasting($tasting);
+    }
+
     public function joinBeerToTasting(Beer $beer, Tasting $tasting)
     {
         return $this->joinBeerService->joinBeerToTasting($beer, $tasting);
@@ -55,11 +77,6 @@ class BeerController extends Controller
     public function show(Beer $beer)
     {
         return $this->beerService->getBeerById($beer);
-    }
-
-    public function edit(StoreBeer $request, Beer $beer)
-    {
-        return $this->storeBeerService->editBeer($request, $beer);
     }
 
     public function delete(Beer $beer)

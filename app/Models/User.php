@@ -63,7 +63,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function groups()
     {
-        return $this->belongsToMany('App\Models\Group', 'group_user', 'user_id', 'group_id');
+        return $this->belongsToMany('App\Models\Group', 'group_user', 'moderator_id', 'group_id');
     }
 
     public function ratings()

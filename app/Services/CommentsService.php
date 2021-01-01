@@ -5,50 +5,48 @@ namespace App\Services;
 
 
 use App\Models\Comment;
+use App\Repositories\GetsCommentsRepository;
+use App\Repositories\StoreDeleteStoreDeleteCommentsRepository;
 use App\Services\Interfaces\CommentsServiceInterface;
 use App\Traits\ResponseDataTrait;
 
 class CommentsService implements CommentsServiceInterface
 {
     use ResponseDataTrait;
-    public function getCommentOfRating($rating)
-    {
-        $result = Comment::where('rating_id', $rating)->get();
+    private $commentRepository;
+    private $getcommentsRepository;
 
-        return $this->responseWithData($result, 200);
+    public function __construct(StoreDeleteStoreDeleteCommentsRepository $commentRepository,
+    GetsCommentsRepository $getcommentsRepository)
+    {
+        $this->commentRepository = $commentRepository;
+        $this->getcommentsRepository = $getcommentsRepository;
     }
 
-    public function getCommentsOfUser($user)
+    public function getCommentOfTasting($tasting)
     {
-        $result = Comment::where('user_id', $user)->get();
-
-        return $this->responseWithData($result, 200);
+        $res = $this->getcommentsRepository->getCommentsOfTasting($tasting);
+        return $res ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Not found', 404);
     }
 
     public function getMyComments()
     {
-        $result = Comment::where('user_id', auth()->user()->id)->get();
-
-        return $this->responseWithData($result, 200);
+        $res = $this->getcommentsRepository->getMyComments();
+        return $res ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Not found', 404);
     }
 
-    public function storeComment($rating, $data)
+    public function storeComment($tasting, $data)
     {
-        $comment = new Comment();
-
-        $comment->content = $data->content;
-        $comment->user_id = auth()->user()->id;
-        $comment->rating_id = $rating->id;
-
-        $comment->save();
-
-        return $this->responseWithData($comment, 200);
+        $res = $this->commentRepository->storeComment($tasting, $data);
+        return $res ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Comment has been stored', 400);
     }
 
     public function deleteComment($comment)
     {
-        $comment->delete();
-
-        return $this->responseWithMessage('Comment has been removed', 200);
+        return $comment->delete() ? $this->responseWithMessage('Comment has been removed', 200)
+            : $this->responseWithMessage('Not found', 404);
     }
 }

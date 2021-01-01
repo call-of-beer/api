@@ -26,8 +26,7 @@ class StoreBeer extends FormRequest
         return [
             'name' => ['required', 'string', 'max:50'],
             'alcohol_volume' => ['required', 'string', 'max:5'],
-            'country' => ['required', 'string', 'max:25'],
-            'description' => ['string', 'max:200']
+            'description' => ['string']
         ];
     }
 

@@ -19,6 +19,15 @@ class CountryService implements CountryServiceInterface
         return $this->responseWithData($countries, 200);
     }
 
+    public function getCountry($country)
+    {
+        $countries = Country::with('beers')
+            ->where('id', $country->id)
+            ->get();
+
+        return $this->responseWithData($countries, 200);
+    }
+
     public function storeNew($data)
     {
         $country = new Country();

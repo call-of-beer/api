@@ -26,6 +26,11 @@ class CountryController extends Controller
         return $this->countryService->storeNew($request);
     }
 
+    public function getCountry(Country $country)
+    {
+        return $this->countryService->getCountry($country);
+    }
+
     public function destroy(Country $country)
     {
         return $this->countryService->remove($country);

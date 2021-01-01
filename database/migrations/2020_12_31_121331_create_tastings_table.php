@@ -19,6 +19,7 @@ class CreateTastingsTable extends Migration
             $table->string('description');
             $table->integer('user_id');
             $table->integer('group_id');
+            $table->integer('beer_id');
             $table->timestamps();
         });
     }

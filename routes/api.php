@@ -57,7 +57,9 @@ Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    /
 
     Route::get('/user/group/all/', [GroupController::class, 'getAllGroupsWhereUserIsMember']);
     Route::get('/tastings', [\App\Http\Controllers\TastingController::class, 'index']);
-    Route::post('/tasting/{group}', [\App\Http\Controllers\TastingController::class, 'store']);
+    Route::get('/tastings/{group}', [\App\Http\Controllers\TastingController::class, 'getTastingOfGroup']);
+    Route::get('/tasting/{tasting}', [\App\Http\Controllers\TastingController::class, 'getTasting']);
+    Route::post('/tasting/{group}/{beer}', [\App\Http\Controllers\TastingController::class, 'store']);
     Route::patch('/tasting/{id}', [\App\Http\Controllers\TastingController::class, 'edit']);
     Route::delete('/tasting/{tasting}', [\App\Http\Controllers\TastingController::class, 'destroy']);
 
@@ -66,11 +68,20 @@ Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    /
     Route::delete('/attribute/{attribute}', [\App\Http\Controllers\TasteAttributesController::class, 'destroy']);
 
     Route::get('/beer/all/my', [BeerController::class, 'getMyBeers']);
+    Route::get('/beer/type/{type_beer}', [BeerController::class, 'getBeersOfType']);
+    Route::get('/beer/country/{country}', [BeerController::class, 'getBeersOfCountry']);
     Route::post('/beer/store/{type_beer}/{country}', [BeerController::class, 'store']);
-    Route::get('/beer/{id}', [BeerController::class, 'show']);
+    Route::get('/beer/{beer}', [BeerController::class, 'show']);
+    Route::get('/beer/tasting/{tasting}', [BeerController::class, 'getBeerOfTasting']);
     Route::post('/beer/{beer}/{tasting}', [BeerController::class, 'joinBeerToTasting']);
     Route::put('/beer/edit/{beer}', [BeerController::class, 'edit']);
-    Route::delete('/beer/delete/{id}', [BeerController::class, 'delete']);
+    Route::delete('/beer/delete/{beer}', [BeerController::class, 'delete']);
+
+    //comments
+    Route::get('/comment/{tasting}', [\App\Http\Controllers\CommentController::class, 'getCommentsOfTasting']);
+    Route::get('/comment/my', [\App\Http\Controllers\CommentController::class, 'getMyComments']);
+    Route::post('/comment/new/{tasting}', [\App\Http\Controllers\CommentController::class, 'store']);
+    Route::delete('/comment/{comment}', [\App\Http\Controllers\CommentController::class, 'remove']);
 });
 
 Route::delete('/group/{group}', [GroupController::class, 'destroy']);
@@ -87,12 +98,14 @@ Route::group([
 //open routes
 
 Route::get('/country', [\App\Http\Controllers\CountryController::class, 'index']);
+Route::get('/country/{country}', [\App\Http\Controllers\CountryController::class, 'getCountry']);
 Route::get('/type', [\App\Http\Controllers\TypeBeerController::class, 'index']);
+Route::get('/type/{typeBeer}', [\App\Http\Controllers\TypeBeerController::class, 'getTypeBeer']);
 
 
 Route::get('/beers', [BeerController::class, 'getAll']);
 
-Route::post('/rating/store', [RatingController::class, 'store']);
+Route::post('/rating/store/{beer}', [RatingController::class, 'store']);
 Route::get('/rating/all', [RatingController::class, 'getAll']);
 Route::get('/rating/{id}', [RatingController::class, 'show']);
 Route::get('/rating/user/{user_id}', [RatingController::class, 'userRating']);

@@ -6,9 +6,7 @@ namespace App\Services\Interfaces;
 
 interface CommentsServiceInterface
 {
-    public function getCommentOfRating($rating);
-
-    public function getCommentsOfUser($user);
+    public function getCommentOfTasting($rating);
 
     public function getMyComments();
 

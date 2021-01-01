@@ -13,6 +13,10 @@ class Group extends Model
 
     protected $table = 'groups';
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];
+
     public function users()
     {
         return $this->belongsToMany('App\Models\User', 'group_user', 'group_id',

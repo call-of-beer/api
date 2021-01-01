@@ -6,30 +6,50 @@ namespace App\Services;
 
 use App\Models\Beer;
 use App\Models\Tasting;
+use App\Repositories\GetTastingsRepository;
+use App\Repositories\StoreTastingRepository;
 use App\Services\Interfaces\TastingServicesInterfaces;
 use App\Traits\ResponseDataTrait;
+use Illuminate\Support\Facades\DB;
 
 class TastingServices implements TastingServicesInterfaces
 {
     use ResponseDataTrait;
-    public function getAll()
-    {
-        $results = Tasting::with(['user'])->get();
+    private $gettastingsRepository;
+    private $storetastingRepository;
 
-        return $this->responseWithData($results, 200);
+    public function __construct(GetTastingsRepository $gettastingsRepository,
+    StoreTastingRepository $storetastingRepository)
+    {
+        $this->gettastingsRepository = $gettastingsRepository;
+        $this->storetastingRepository = $storetastingRepository;
     }
 
-    public function store($data, $group)
+    public function getAll()
     {
-        $newTasting = new Tasting();
+        $res = $this->gettastingsRepository->getAllTastings();
+        return $res ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Not found', 404);
+    }
 
-        $newTasting->title = $data->title;
-        $newTasting->description = $data->description;
-        $newTasting->user_id = auth()->user()->id;
-        $newTasting->group_id = $group->id;
+    public function getTastingsByGroupId($group)
+    {
+        $res = $this->gettastingsRepository->getTastingsByGroupId($group);
+        return $res ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Not found', 404);
+    }
 
-        $newTasting->save();
+    public function getTastingById($tasting)
+    {
+        $res = $this->gettastingsRepository->getTastingById($tasting);
+        return $res ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Not found', 404);
+    }
 
-        return $this->responseWithData($newTasting, 200);
+    public function store($data, $group, $beer)
+    {
+        $res = $this->storetastingRepository->store($data, $group, $beer);
+        return $res ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Tasting has not been stored', 400);
     }
 }

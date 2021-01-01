@@ -13,9 +13,9 @@ class Comment extends Model
         'content'
     ];
 
-    public function rating()
+    public function tasting()
     {
-        return $this->belongsTo(Rating::class, 'rating_id', 'id');
+        return $this->belongsTo(Tasting::class, 'tasting_id', 'id');
     }
 
     public function users()

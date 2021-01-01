@@ -25,15 +25,24 @@ class TastingController extends Controller
         return $this->tastingService->getAll();
     }
 
-    public function store(TastingRequest $tastingRequest, Group $group)
+    public function store(TastingRequest $tastingRequest, Group $group, Beer $beer)
     {
-        return $this->tastingService->store($tastingRequest, $group);
+        return $this->tastingService->store($tastingRequest, $group, $beer);
+    }
+
+    public function getTastingOfGroup(Group $group)
+    {
+        return $this->tastingService->getTastingsByGroupId($group);
+    }
+
+    public function getTasting(Tasting $tasting)
+    {
+        return $this->tastingService->getTastingById($tasting);
     }
 
     public function destroy(Tasting $tasting)
     {
-        $tasting->delete();
-
-        return $this->responseWithData('Tasting has been destroyed', 200);
+        return $tasting->delete() ? $this->responseWithMessage('Tasting has been destroyed', 200)
+            : $this->responseWithMessage('Not found', 404);
     }
 }

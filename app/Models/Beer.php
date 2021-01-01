@@ -18,6 +18,10 @@ class Beer extends Model
         'name', 'alcohol_volume', 'country', 'description'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];
+
     public function country()
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');
@@ -33,9 +37,9 @@ class Beer extends Model
         return $this->hasMany(Ingredients::class);
     }
 
-    public function tasting()
+    public function tastings()
     {
-        return $this->belongsTo(Tasting::class, 'beer_id', 'id');
+        return $this->hasMany(Tasting::class);
     }
 
     public function user()

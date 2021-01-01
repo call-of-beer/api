@@ -16,6 +16,10 @@ class Tasting extends Model
         'description'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -28,6 +32,11 @@ class Tasting extends Model
 
     public function beer()
     {
-        return $this->hasOne(Beer::class);
+        return $this->belongsTo(Beer::class, 'beer_id', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

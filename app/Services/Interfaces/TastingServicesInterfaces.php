@@ -8,5 +8,5 @@ interface TastingServicesInterfaces
 {
     public function getAll();
 
-    public function store($data, $group);
+    public function store($data, $group, $beer);
 }

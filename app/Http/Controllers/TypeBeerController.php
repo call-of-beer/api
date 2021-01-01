@@ -26,6 +26,11 @@ class TypeBeerController extends Controller
         return $this->typesBeerService->addNew($request);
     }
 
+    public function getTypeBeer(TypeBeer $typeBeer)
+    {
+        return $this->typesBeerService->getById($typeBeer);
+    }
+
     public function destroy(TypeBeer $typeBeer)
     {
         return $this->typesBeerService->remove($typeBeer);

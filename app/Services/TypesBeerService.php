@@ -26,6 +26,15 @@ class TypesBeerService implements TypesBeerServiceInterface
         return $this->responseWithData($typeBeer, 200);
     }
 
+    public function getById($typesBeer)
+    {
+        $res = TypeBeer::with('beers')
+            ->where('id', $typesBeer->id)
+            ->get();
+
+        return $this->responseWithData($res, 200);
+    }
+
     public function remove($typesBeer)
     {
         $typesBeer->delete();

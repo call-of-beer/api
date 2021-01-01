@@ -30,10 +30,9 @@ class GroupServices implements GroupServiceInterface
 
     public function getAllGroupsWhereUserIsMember()
     {
-        $user = auth()->user()->id;
-        $group = DB::table('group_user')
-            ->where('user_id', $user)
-            ->get();
+        $group = Group::where('moderator_id', \auth()->user()->id)
+                ->with(['tastings', 'users'])
+                ->get();
 
         return $this->responseWithData($group, 200);
     }
