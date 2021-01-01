@@ -73,4 +73,9 @@ class GroupController extends Controller
     {
         return $this->groupServices->getGroupsWhereUserIsMember();
     }
+
+    public function getUsersOfGroup(Group $group)
+    {
+        return $this->groupServices->getUsersOfGroup($group);
+    }
 }

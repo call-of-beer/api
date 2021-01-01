@@ -33,8 +33,15 @@ class GetsGroupsRepository implements GetsGroupsRepositoryInterface
     public function getGroupsWhereUserIsMember()
     {
         $user = auth()->user();
-        return Group::whereHas('users', function($query) use ($user) {
+        return (new \App\Models\Group)->whereHas('users', function($query) use ($user) {
             $query->where('users.id', auth()->user()->id);
+        })->get();
+    }
+
+    public function getUsersOfGroup($group)
+    {
+        return (new \App\Models\User)->whereHas('groups', function ($query) use ($group) {
+           $query->where('groups.id', $group->id);
         })->get();
     }
 }

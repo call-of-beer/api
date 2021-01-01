@@ -48,4 +48,11 @@ class GroupServices implements GroupServiceInterface
         return $res ? $this->responseWithData($res, 200)
             : $this->responseWithMessage('The user does not belong to any group', 404);
     }
+
+    public function getUsersOfGroup($group)
+    {
+        $res = $this->getsGroupsRepository->getUsersOfGroup($group);
+        return $res ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Group is empty', 401);
+    }
 }

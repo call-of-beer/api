@@ -13,4 +13,6 @@ interface GetsGroupsRepositoryInterface
     public function getAllMyGroups();
 
     public function getGroupsWhereUserIsMember();
+
+    public function getUsersOfGroup($group);
 }

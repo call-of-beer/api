@@ -10,6 +10,13 @@ use Spatie\Permission\Traits\HasRoles;
 use App\Models\Group;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+use Illuminate\Database\Eloquent;
+
+/**
+ * @mixin \Eloquent
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable, HasRoles;
@@ -59,7 +66,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-
 
     public function groups()
     {
