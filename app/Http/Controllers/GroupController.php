@@ -41,7 +41,9 @@ class GroupController extends Controller
 
     public function addUserToGroup(Group $group, AddUserToGroupRequest $request)
     {
-        return $this->joinDeleteUserGroupService->joinUserToGroup($group, $request);
+        return \auth()->user()->can($group->id)
+            ? $this->joinDeleteUserGroupService->joinUserToGroup($group, $request)
+            : $this->responseWithMessage('User has no permission', 401);
     }
 
     public function destroy(Group $group)
@@ -56,7 +58,9 @@ class GroupController extends Controller
 
     public function removeUserFromGroup(Group $group, User $user)
     {
-        return $this->joinDeleteUserGroupService->removeUserFromGroup($group, $user);
+        return \auth()->user()->can($group->id)
+            ? $this->joinDeleteUserGroupService->removeUserFromGroup($group, $user)
+            : $this->responseWithMessage('User has no permission', 401);
     }
 
     public function editGroup(Request $request, Group $group)

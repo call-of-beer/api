@@ -29,21 +29,6 @@ class Group extends Model
             'moderator_id');
     }
 
-    public function getUserId()
-    {
-        $user = $this->users()->pluck('id');
-        return $this->getGroupsOfUser($user);
-    }
-
-    public function getGroupsOfUser($user)
-    {
-        $user = is_array($user) ? $user : [$user];
-
-        return Group::whereHas('users', function($query) use($user){
-            $query->whereIn('id', $user);
-        })->get();
-    }
-
     public function tastings()
     {
         return $this->hasMany(Tasting::class);

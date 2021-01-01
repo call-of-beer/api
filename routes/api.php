@@ -47,7 +47,6 @@ Route::group([
 
 Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    //routy dostępne dla zalogowanych userów i admina
 
-
     Route::post('/group/add', [GroupController::class, 'store']);
     Route::get('/group/all', [GroupController::class, 'getAllMyGroups']);
     Route::get('/group/{groupId}', [GroupController::class, 'getGroup']);
