@@ -63,11 +63,6 @@ Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    /
     Route::post('/tasting/{group}/{beer}', [\App\Http\Controllers\TastingController::class, 'store']);
     Route::patch('/tasting/{id}', [\App\Http\Controllers\TastingController::class, 'edit']);
     Route::delete('/tasting/{tasting}', [\App\Http\Controllers\TastingController::class, 'destroy']);
-
-    Route::get('/attribute', [\App\Http\Controllers\TasteAttributesController::class, 'index']);
-    Route::post('/attribute/{beer}', [\App\Http\Controllers\TasteAttributesController::class, 'store']);
-    Route::delete('/attribute/{attribute}', [\App\Http\Controllers\TasteAttributesController::class, 'destroy']);
-
     Route::get('/beer/all/my', [BeerController::class, 'getMyBeers']);
     Route::get('/beer/type/{type_beer}', [BeerController::class, 'getBeersOfType']);
     Route::get('/beer/country/{country}', [BeerController::class, 'getBeersOfCountry']);
@@ -113,11 +108,6 @@ Route::get('/rating/user/{user_id}', [RatingController::class, 'userRating']);
 Route::get('/rating/beer/{beer_id}', [RatingController::class, 'beerRating']);
 Route::put('/rating/edit/{rating}', [RatingController::class, 'edit']);
 Route::delete('/rating/delete/{id}', [RatingController::class, 'delete']);
-
-//ingredients
-Route::get('/ingredient', [IngredientsController::class, 'index']);
-Route::post('/ingredient/{beer}', [IngredientsController::class, 'store']);
-Route::delete('/ingredient', [IngredientsController::class, 'destroy']);
 
 
 Route::get('/rating/all', [RatingController::class, 'getAll']);
