@@ -32,11 +32,6 @@ class Beer extends Model
         return $this->hasMany(Rating::class);
     }
 
-    public function ingredients()
-    {
-        return $this->hasMany(Ingredients::class);
-    }
-
     public function tastings()
     {
         return $this->hasMany(Tasting::class);
@@ -50,10 +45,5 @@ class Beer extends Model
     public function types()
     {
         return $this->belongsTo(TypeBeer::class, 'type_beer_id', 'id');
-    }
-
-    public function tasteAttributes()
-    {
-        return $this->hasMany(TasteAttributes::class);
     }
 }
