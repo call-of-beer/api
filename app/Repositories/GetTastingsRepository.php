@@ -11,13 +11,13 @@ class GetTastingsRepository implements GetTastingsRepositoryInterface
 {
     public function getAllTastings()
     {
-        $results = Tasting::with(['user', 'group', 'beer'])->get();
+        $results = Tasting::with(['user', 'group', 'beer', 'comments'])->get();
         return $results;
     }
 
     public function getTastingsByGroupId($group)
     {
-        $results = Tasting::with(['user', 'group', 'beer'])
+        $results = Tasting::with(['user', 'group', 'beer', 'comments'])
             ->where('group_id', $group->id)
             ->get();
 
@@ -26,7 +26,7 @@ class GetTastingsRepository implements GetTastingsRepositoryInterface
 
     public function getTastingById($tasting)
     {
-        $results = Tasting::with(['user', 'group', 'beer'])
+        $results = Tasting::with(['user', 'group', 'beer', 'comments'])
             ->where('id', $tasting->id)
             ->get();
 

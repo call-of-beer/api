@@ -49,13 +49,14 @@ Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    /
 
 
     Route::post('/group/add', [GroupController::class, 'store']);
-    Route::get('/group/all', [GroupController::class, 'getAllGroups']);
+    Route::get('/group/all', [GroupController::class, 'getAllMyGroups']);
     Route::get('/group/{groupId}', [GroupController::class, 'getGroup']);
     Route::put('/group/update/{group}', [GroupController::class, 'editGroup']);
     Route::post('/group/{groupId}/addUser', [GroupController::class, 'addUserToGroup']);
     Route::delete('/group/{group}/{user}/delete', [GroupController::class, 'removeUserFromGroup']);
 
-    Route::get('/user/group/all/', [GroupController::class, 'getAllGroupsWhereUserIsMember']);
+    Route::get('/user/group/all/', [GroupController::class, 'getAllMyGroups']);
+    Route::get('/user/group/all/member', [GroupController::class, 'getGroupsWhereUserIsMember']);
     Route::get('/tastings', [\App\Http\Controllers\TastingController::class, 'index']);
     Route::get('/tastings/{group}', [\App\Http\Controllers\TastingController::class, 'getTastingOfGroup']);
     Route::get('/tasting/{tasting}', [\App\Http\Controllers\TastingController::class, 'getTasting']);

@@ -1,12 +1,10 @@
 <?php
 
 
-namespace App\Services\Interfaces;
+namespace App\Repositories\Interfaces;
 
 
-use Illuminate\Support\Facades\Auth;
-
-interface GroupServiceInterface
+interface GetsGroupsRepositoryInterface
 {
     public function getAllGroups();
 

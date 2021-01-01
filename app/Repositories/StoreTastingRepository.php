@@ -15,7 +15,6 @@ class StoreTastingRepository implements StoreTastingRepositoryInterface
 
         $newTasting->title = $data->title;
         $newTasting->description = $data->description;
-        $newTasting->user_id = auth()->user()->id;
         $newTasting->group_id = $group->id;
         $newTasting->beer_id = $beer->id;
 

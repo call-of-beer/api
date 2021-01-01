@@ -11,14 +11,16 @@ class GetsCommentsRepository implements GetsCommentsRepositoryInterface
 {
     public function getCommentsOfTasting($tasting)
     {
-        $result = Comment::where('tasting_id', $tasting->id)
+        $result = Comment::with('user')
+            ->where('tasting_id', $tasting->id)
             ->get();
         return $result;
     }
 
     public function getMyComments()
     {
-        $result = Comment::where('user_id', auth()->user()->id)
+        $result = Comment::with('user')
+            ->where('user_id', auth()->user()->id)
             ->get();
         return $result;
     }

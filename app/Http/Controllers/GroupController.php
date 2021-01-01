@@ -36,12 +36,7 @@ class GroupController extends Controller
 
     public function store(AddGroupRequest $request)
     {
-        if(!$request->validated()) {
-            return $this->responseWithError($request);
-        }
-        else {
-            return $this->storeUpdateDeleteGroupService->storeGroup($request);
-        }
+        return $this->storeUpdateDeleteGroupService->storeGroup($request);
     }
 
     public function addUserToGroup(Group $group, AddUserToGroupRequest $request)
@@ -59,11 +54,6 @@ class GroupController extends Controller
         return $this->groupServices->getGroupById($groupId);
     }
 
-    public function getAllGroups()
-    {
-        return $this->groupServices->getAllGroups();
-    }
-
     public function removeUserFromGroup(Group $group, User $user)
     {
         return $this->joinDeleteUserGroupService->removeUserFromGroup($group, $user);
@@ -74,8 +64,13 @@ class GroupController extends Controller
         return $this->storeUpdateDeleteGroupService->editGroup($group, $request);
     }
 
-    public function getAllGroupsWhereUserIsMember()
+    public function getAllMyGroups()
     {
-        return $this->groupServices->getAllGroupsWhereUserIsMember();
+        return $this->groupServices->getAllMyGroups();
+    }
+
+    public function getGroupsWhereUserIsMember()
+    {
+        return $this->groupServices->getGroupsWhereUserIsMember();
     }
 }

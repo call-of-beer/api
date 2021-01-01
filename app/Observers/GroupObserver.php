@@ -16,4 +16,9 @@ class GroupObserver
         auth()->user()->givePermissionTo($permission);
         $group->users()->attach(auth()->user()->id);
     }
+
+    public function saving(Group $group)
+    {
+        $group->moderator_id = auth()->user()->id;
+    }
 }

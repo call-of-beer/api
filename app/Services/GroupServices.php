@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Repositories\GetsGroupsRepository;
 use App\Services\Interfaces\GroupServiceInterface;
 use App\Traits\ResponseDataTrait;
 use Illuminate\Http\Request;
@@ -13,27 +14,38 @@ use Illuminate\Support\Facades\DB;
 class GroupServices implements GroupServiceInterface
 {
     use ResponseDataTrait;
+    private $getsGroupsRepository;
+
+    public function __construct(GetsGroupsRepository $getsGroupsRepository)
+    {
+        $this->getsGroupsRepository = $getsGroupsRepository;
+    }
 
     public function getAllGroups()
     {
-        $groupAll = Group::with(['tastings', 'users'])->get();
-
-        return $this->responseWithData($groupAll, 200);
+        $res = $this->getsGroupsRepository->getAllGroups();
+        return $res ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Groups base is empty', 404);
     }
 
     public function getGroupById($group)
     {
-        $groupOne = Group::where('id', $group)->get();
-
-        return $this->responseWithData($groupOne, 200);
+        $res = $this->getsGroupsRepository->getGroupById($group);
+        return $res ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Not found', 404);
     }
 
-    public function getAllGroupsWhereUserIsMember()
+    public function getAllMyGroups()
     {
-        $group = Group::where('moderator_id', \auth()->user()->id)
-                ->with(['tastings', 'users'])
-                ->get();
+        $res = $this->getsGroupsRepository->getAllMyGroups();
+        return $res ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('The user does not belong to any group', 404);
+    }
 
-        return $this->responseWithData($group, 200);
+    public function getGroupsWhereUserIsMember()
+    {
+        $res = $this->getsGroupsRepository->getGroupsWhereUserIsMember();
+        return $res ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('The user does not belong to any group', 404);
     }
 }

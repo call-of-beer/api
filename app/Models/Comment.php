@@ -13,12 +13,16 @@ class Comment extends Model
         'content'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];
+
     public function tasting()
     {
         return $this->belongsTo(Tasting::class, 'tasting_id', 'id');
     }
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
