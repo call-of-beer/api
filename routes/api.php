@@ -52,7 +52,7 @@ Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    /
     Route::get('/group/all', [GroupController::class, 'getAllMyGroups']);
     Route::get('/group/{groupId}', [GroupController::class, 'getGroup']);
     Route::put('/group/update/{group}', [GroupController::class, 'editGroup']);
-    Route::post('/group/{groupId}/addUser', [GroupController::class, 'addUserToGroup']);
+    Route::post('/group/{group}/addUser', [GroupController::class, 'addUserToGroup']);
     Route::delete('/group/{group}/{user}/delete', [GroupController::class, 'removeUserFromGroup']);
 
     Route::get('/user/group/all/', [GroupController::class, 'getAllMyGroups']);

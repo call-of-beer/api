@@ -19,7 +19,7 @@ class JoinDeleteUserGroupService implements JoinDeleteUserGroupServiceInterface
         $user = User::where('email', $data->email)->first();
 
         if(DB::table('group_user')
-            ->where('user_id', $user)
+            ->where('moderator_id', $user)
             ->where('group_id', $groupId)
             ->first())
         {
@@ -31,24 +31,16 @@ class JoinDeleteUserGroupService implements JoinDeleteUserGroupServiceInterface
         return $this->responseWithMessage('User has been added to group', 200);
     }
 
-    public function removeUserFromGroup($groupId, $userId)
+    public function removeUserFromGroup($group, $user)
     {
-        $group = Group::find($groupId);
+        $user = User::find($user->id);
 
-        $user = User::find($userId);
-
-        if(!$user) return $this->responseWithMessage('User can not be found', 404);
-
-        if(!DB::table('group_user')
-            ->where('user_id', $userId)
-            ->where('group_id', $groupId)
-            ->first())
+        if ($user->can($group->id))
         {
-            return $this->responseWithMessage('Data incorrect', 400);
+            return $this->responseWithMessage('Cannot removed admin of group', 401);
+        } else {
+            $user->groups()->detach($group->id);
+            return $this->responseWithMessage('User has been removed', 200);
         }
-
-        $user->groups()->detach($group->id);
-
-        return $this->responseWithMessage('User removed from group.', 200);
     }
 }
