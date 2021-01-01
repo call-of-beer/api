@@ -24,8 +24,7 @@ class AddGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' =>'required',
-            'moderator_id'
+            'name' => 'required'
         ];
     }
 }

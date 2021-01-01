@@ -7,6 +7,7 @@ use App\Http\Controllers\TypeController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\BeerController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\IngredientsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,9 @@ use App\Http\Controllers\RatingController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+if(version_compare(PHP_VERSION, '7.2.0', '>=')) {
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+}
 //authController
 
 Route::group(
@@ -34,53 +37,68 @@ Route::group(
     }
 );
 
-Route::post('/register', [AuthController::class, 'Register']);
-Route::post('/login', [AuthController::class, 'Login']);
+Route::group([
+    'prefix' => 'auth'
+], function ($group) {
+    Route::post('/register', [AuthController::class, 'Register']);
+    Route::post('/login', [AuthController::class, 'Login']);
 
-
-
-Route::group(['middleware' => ['role:admin']], function () {
-
-    //Types of beer
-Route::post('/typeOfBeer/add', [TypeController::class, 'store']);
-Route::put('/typeOfBeer/update/{typeOfBeer}', [TypeController::class, 'update']);
-Route::delete('/typeOfBeer/delete/{typeOfBeer}', [TypeController::class, 'destroy']);
 });
 
-
-
-Route::group(['middleware' => ['role:drinker|admin']], function () {    //routy dostępne dla zalogowanych userów i admina
+Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    //routy dostępne dla zalogowanych userów i admina
 
     Route::post('/group/add', [GroupController::class, 'store']);
-    Route::get('/group/all', [GroupController::class, 'getAllGroups']);
+    Route::get('/group/all', [GroupController::class, 'getAllMyGroups']);
     Route::get('/group/{groupId}', [GroupController::class, 'getGroup']);
     Route::put('/group/update/{group}', [GroupController::class, 'editGroup']);
-    Route::delete('/group/delete/{groupId}', [GroupController::class, 'deleteGroup']);
-    Route::post('/group/{groupId}/addUser', [GroupController::class, 'addUserToGroup']);
+    Route::post('/group/{group}/addUser', [GroupController::class, 'addUserToGroup']);
+    Route::get('/group/users/{group}', [GroupController::class, 'getUsersOfGroup']);
     Route::delete('/group/{group}/{user}/delete', [GroupController::class, 'removeUserFromGroup']);
-
 
     Route::get('/user/{userId}/group/all/', [GroupController::class, 'getAllGroupsWhereUserIsMember']);
 
+    Route::post('/group/{group}', [GroupController::class, 'addUserToGroup']);
 });
 
 
 
 //open routes
-Route::get('/typeOfBeer/all', [TypeController::class, 'getAll']);
-Route::get('/typeOfBeer/{typeOfBeer}', [TypeController::class, 'getOne']);
+
+Route::get('/country', [\App\Http\Controllers\CountryController::class, 'index']);
+Route::get('/country/{country}', [\App\Http\Controllers\CountryController::class, 'getCountry']);
+Route::get('/type', [\App\Http\Controllers\TypeBeerController::class, 'index']);
+Route::get('/type/{typeBeer}', [\App\Http\Controllers\TypeBeerController::class, 'getTypeBeer']);
 
 
-Route::post('/beer/store', [BeerController::class, 'store']);
-Route::get('/beer/all', [BeerController::class, 'getAll']);
-Route::get('/beer/{id}', [BeerController::class, 'show']);
-Route::put('/beer/edit/{beer}', [BeerController::class, 'edit']);
-Route::delete('/beer/delete/{id}', [BeerController::class, 'delete']);
+Route::get('/beers', [BeerController::class, 'getAll']);
 
-Route::post('/rating/store', [RatingController::class, 'store']);
+Route::post('/rating/store/{beer}', [RatingController::class, 'store']);
 Route::get('/rating/all', [RatingController::class, 'getAll']);
 Route::get('/rating/{id}', [RatingController::class, 'show']);
 Route::get('/rating/user/{user_id}', [RatingController::class, 'userRating']);
 Route::get('/rating/beer/{beer_id}', [RatingController::class, 'beerRating']);
 Route::put('/rating/edit/{rating}', [RatingController::class, 'edit']);
 Route::delete('/rating/delete/{id}', [RatingController::class, 'delete']);
+
+//ingredients
+Route::get('/ingredient', [IngredientsController::class, 'index']);
+Route::post('/ingredient/{beer}', [IngredientsController::class, 'store']);
+Route::delete('/ingredient', [IngredientsController::class, 'destroy']);
+
+
+Route::get('/rating/all', [RatingController::class, 'getAll']);
+Route::get('/rating/selected/{beer}', [RatingController::class, 'getSelected']);
+Route::post('/rating/store/{beer}', [RatingController::class, 'store']);
+Route::get('/rating/average/{beer}', [RatingController::class, 'getAvg']);
+
+//ADMIN
+Route::group(['middleware' => ['role:admin']], function () {
+
+    //Types of beer
+    Route::post('/type', [\App\Http\Controllers\TypeBeerController::class, 'store']);
+    Route::delete('/type/{type}', [\App\Http\Controllers\TypeBeerController::class, 'destroy']);
+
+    //country
+    Route::post('/country/new', [\App\Http\Controllers\CountryController::class, 'store']);
+    Route::delete('/country/delete/{country}', [\App\Http\Controllers\CountryController::class, 'destroy']);
+});

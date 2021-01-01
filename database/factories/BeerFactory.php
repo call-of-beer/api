@@ -22,7 +22,10 @@ class BeerFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name,
+            'alcohol_volume' => $this->faker->randomFloat(),
+            'country' => $this->faker->country,
+            'description' => $this->faker->realText()
         ];
     }
 }

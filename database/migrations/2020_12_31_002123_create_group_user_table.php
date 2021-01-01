@@ -14,11 +14,10 @@ class CreateGroupUserTable extends Migration
     public function up()
     {
         Schema::create('group_user', function (Blueprint $table) {
-            $table->primary(['user_id', 'group_id']);
-            $table->integer('user_id');
+            $table->id();
             $table->integer('group_id');
+            $table->integer('moderator_id');
             $table->timestamps();
-            $table->engine = "InnoDB";
         });
     }
 

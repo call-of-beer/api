@@ -28,9 +28,7 @@ class StoreRating extends FormRequest
             'color' => ['integer'],
             'taste' => ['integer'],
             'bitterness' => ['integer'],
-            'texture' => ['integer'],
-            'overall' => ['integer'],
-            'comment' => ['string']
+            'texture' => ['integer']
         ];
     }
 }

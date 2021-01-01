@@ -8,10 +8,14 @@ use App\Events\NewUserHasBeenRegistered;
 use App\Mail\WelcomeNewUser;
 use App\Models\User;
 use App\Services\Interfaces\AuthServicesInterface;
+use App\Traits\ResponseDataTrait;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class AuthServices implements AuthServicesInterface
 {
+    use ResponseDataTrait;
+
     public function Register($data)
     {
         $newUser = new User();
@@ -31,7 +35,8 @@ class AuthServices implements AuthServicesInterface
         }
 
         return response()->json([
-            'token' => $token
+            'token' => $token,
+            'role' => auth()->user()->getRoleNames()
         ], 200);
     }
 }

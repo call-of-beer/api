@@ -4,7 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
+use Illuminate\Database\Eloquent;
+
+/**
+ * @mixin \Eloquent
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 
 class Group extends Model
 {
@@ -14,9 +19,19 @@ class Group extends Model
 
     protected $table = 'groups';
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];
+
     public function users()
     {
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->belongsToMany('App\Models\User', 'group_user', 'group_id',
+            'moderator_id');
+    }
+
+    public function tastings()
+    {
+        return $this->hasMany(Tasting::class);
     }
 
 }
