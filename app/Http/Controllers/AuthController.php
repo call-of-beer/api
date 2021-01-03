@@ -37,6 +37,18 @@ class AuthController extends Controller
         }
     }
 
+    public function RegisterAdmin(RegisterRequest $request)
+    {
+        if ($request->validated())
+        {
+            $result = $this->authServices->registerAdmin($request);
+            return response()->json($result, 200);
+
+        } else {
+            return $this->responseWithError($request);
+        }
+    }
+
     public function Logout()
     {
         auth()->logout();

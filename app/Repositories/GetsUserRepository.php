@@ -11,7 +11,7 @@ class GetsUserRepository implements GetsUserRepositoryInterface
 {
     public function getUsers()
     {
-        return User::all()
+        return User::with('roles')
             ->get();
     }
 

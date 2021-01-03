@@ -133,4 +133,5 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/users/all', [\App\Http\Controllers\UserController::class, 'index']);
     Route::get('/users/admin', [\App\Http\Controllers\UserController::class, 'getAdmins']);
     Route::get('/users/drinker', [\App\Http\Controllers\UserController::class, 'getDrinkers']);
+    Route::post('/register/new/admin', [AuthController::class, 'RegisterAdmin']);
 });
