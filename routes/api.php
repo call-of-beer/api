@@ -78,6 +78,9 @@ Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    /
     Route::get('/comment/my', [\App\Http\Controllers\CommentController::class, 'getMyComments']);
     Route::post('/comment/new/{tasting}', [\App\Http\Controllers\CommentController::class, 'store']);
     Route::delete('/comment/{comment}', [\App\Http\Controllers\CommentController::class, 'remove']);
+
+    //auth user
+    Route::get('/user/me', [\App\Http\Controllers\UserController::class, 'getAuthUser']);
 });
 
 Route::delete('/group/{group}', [GroupController::class, 'destroy']);
@@ -125,4 +128,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     //country
     Route::post('/country/new', [\App\Http\Controllers\CountryController::class, 'store']);
     Route::delete('/country/delete/{country}', [\App\Http\Controllers\CountryController::class, 'destroy']);
+
+    //users
+    Route::get('/users/all', [\App\Http\Controllers\UserController::class, 'index']);
+    Route::get('/users/admin', [\App\Http\Controllers\UserController::class, 'getAdmins']);
+    Route::get('/users/drinker', [\App\Http\Controllers\UserController::class, 'getDrinkers']);
 });
