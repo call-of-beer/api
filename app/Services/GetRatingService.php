@@ -71,6 +71,7 @@ class GetRatingService implements GetRatingServiceInterface
             ->avg('texture');
 
         return $this->getResponseRatingByTasting(
+            $tasting,
             $avgAroma,
             $avgColor,
             $avgTaste,
