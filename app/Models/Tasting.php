@@ -39,4 +39,9 @@ class Tasting extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function tasting()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }

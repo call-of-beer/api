@@ -4,12 +4,6 @@ namespace App\Services;
 use App\Repositories\GetsGroupsRepository;
 use App\Services\Interfaces\GroupServiceInterface;
 use App\Traits\ResponseDataTrait;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Models\Group;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class GroupServices implements GroupServiceInterface
 {

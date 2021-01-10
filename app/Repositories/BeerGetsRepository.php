@@ -44,7 +44,7 @@ class BeerGetsRepository implements BeerGetsRepositoryInterface
     public function getOfTasting($tasting)
     {
         return Beer::with(['user', 'ratings'])
-            ->where('country_id', $tasting->id)
+            ->where('tasting_id', $tasting->id)
             ->get();
     }
 }

@@ -6,7 +6,7 @@ namespace App\Services\Interfaces;
 
 interface CreateRatingServiceInterface
 {
-    public function store($beer, $data);
+    public function store($beer, $data, $tasting);
 
     public function editRating($rating, $data);
 

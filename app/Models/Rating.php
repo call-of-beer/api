@@ -37,4 +37,9 @@ class Rating extends Model
     {
         return $this->hasOne(Comment::class);
     }
+
+    public function tasting()
+    {
+        return $this->belongsTo(Tasting::class, 'tasting_id', 'id');
+    }
 }

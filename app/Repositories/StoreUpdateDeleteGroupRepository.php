@@ -20,7 +20,7 @@ class StoreUpdateDeleteGroupRepository implements StoreUpdateDeleteGroupReposito
 
     public function edit($group, $data)
     {
-        if(!$group) return null;
+        if(!$group) return false;
         return $group->update($data) ? $group : false;
     }
 

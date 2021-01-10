@@ -1,18 +1,19 @@
 <?php
 
 
-namespace App\Services\Interfaces;
+namespace App\Repositories\Interfaces;
 
 
-interface GetRatingServiceInterface
+interface GetRatingsRepositoryInterface
 {
     public function getAll();
-
-    public function getRatingById($rating);
 
     public function getRatingOfBeer($beer);
 
     public function getRatingOfUser($user);
 
+    public function getRatingById($rating);
+
     public function getAvgRatingByTasting($tasting);
+
 }

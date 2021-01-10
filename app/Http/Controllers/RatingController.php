@@ -6,6 +6,7 @@ use App\Models\Beer;
 use App\Models\GradingScale;
 use App\Models\Ingredients;
 use App\Models\TasteAttributes;
+use App\Models\Tasting;
 use App\Services\CreateRatingService;
 use App\Services\GetRatingService;
 use App\Services\GradeService;
@@ -35,9 +36,9 @@ class RatingController extends Controller
         return $this->getRatingService->getAll();
     }
 
-    public function store(Beer $beer, StoreRating $storeRating)
+    public function store(Beer $beer, StoreRating $storeRating, Tasting $tasting)
     {
-        return $this->storeDeleteRatingService->store($beer, $storeRating);
+        return $this->storeDeleteRatingService->store($beer, $storeRating, $tasting);
     }
 
     public function getSelected(Beer $beer)
@@ -60,8 +61,8 @@ class RatingController extends Controller
         return $this->storeDeleteRatingService->delete($rating);
     }
 
-    public function getAvg(Beer $beer)
+    public function getAvgRatingsByTasting(Tasting $tasting)
     {
-        return $this->getRatingService->getAverageAroma($beer);
+        return $this->getRatingService->getAvgRatingByTasting($tasting);
     }
 }

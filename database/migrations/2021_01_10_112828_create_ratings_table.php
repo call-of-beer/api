@@ -22,6 +22,7 @@ class CreateRatingsTable extends Migration
             $table->integer('texture');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('beer_id');
+            $table->unsignedBigInteger('tasting_id');
             $table->timestamps();
         });
     }

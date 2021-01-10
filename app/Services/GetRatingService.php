@@ -6,54 +6,75 @@ namespace App\Services;
 
 use App\Models\Beer;
 use App\Models\Rating;
+use App\Repositories\GetRatingsRepository;
 use App\Services\Interfaces\GetRatingServiceInterface;
 use App\Traits\ResponseDataTrait;
+use App\Traits\ResponseRatingByTastingTrait;
 use Illuminate\Support\Facades\DB;
 
 class GetRatingService implements GetRatingServiceInterface
 {
     use ResponseDataTrait;
+    use ResponseRatingByTastingTrait;
+
+    private $getRatingsRepository;
+
+    public function __construct(GetRatingsRepository $getRatingsRepository)
+    {
+        $this->getRatingsRepository = $getRatingsRepository;
+    }
 
     public function getAll()
     {
-        $rating = Rating::with(['beer', 'comment', 'user'])->get();
-        return response()->json($rating, 200);
+        $rating = $this->getRatingsRepository->getAll();
+        return $this->responseWithData($rating, 200);
     }
 
     public function getRatingOfBeer($beer)
     {
-        $selected = Rating::where('beer_id', $beer->id)->get();
-
+        $selected = $this->getRatingsRepository->getRatingOfBeer($beer);
         return $this->responseWithData($selected, 200);
     }
 
     public function getRatingOfUser($user)
     {
-        $selected = DB::table('ratings')
-            ->where('user_id', $user->id)
-            ->get();
-
+        $selected = $this->getRatingsRepository->getRatingOfUser($user);
         return $this->responseWithData($selected, 200);
     }
 
     public function getRatingById($rating)
     {
-        $selected = DB::table('ratings')
-            ->where('id', $rating->id)
-            ->get();
-
+        $selected = $this->getRatingsRepository->getRatingById($rating);
         return $this->responseWithData($selected, 200);
     }
 
-    public function getAverageAroma($beer)
+    public function getAvgRatingByTasting($tasting)
     {
-        $getBeer = Beer::find($beer->id);
-        $avgAroma = $getBeer->ratings()->avg('aroma');
-//        $avgTaste = $getBeer->ratings()->avg('taste');
-//        $avgColor = $getBeer->ratings()->avg('color');
-//        $avgBitterness = $getBeer->ratings()->avg('bitterness');
-//        $avgTexture = $getBeer->ratings()->avg('texture');
+        $avgAroma = DB::table('ratings')
+            ->where('tasting_id', '=', $tasting->id)
+            ->avg('aroma');
 
-         return $avgAroma;
+        $avgColor = DB::table('ratings')
+            ->where('tasting_id', '=', $tasting->id)
+            ->avg('color');
+
+        $avgTaste = DB::table('ratings')
+            ->where('tasting_id', '=', $tasting->id)
+            ->avg('taste');
+
+        $avgBitterness = DB::table('ratings')
+            ->where('tasting_id', '=', $tasting->id)
+            ->avg('bitterness');
+
+        $avgTexture = DB::table('ratings')
+            ->where('tasting_id', '=', $tasting->id)
+            ->avg('texture');
+
+        return $this->getResponseRatingByTasting(
+            $avgAroma,
+            $avgColor,
+            $avgTaste,
+            $avgBitterness,
+            $avgTexture, 200);
     }
 }

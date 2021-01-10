@@ -115,8 +115,9 @@ Route::delete('/rating/delete/{id}', [RatingController::class, 'delete']);
 
 Route::get('/rating/all', [RatingController::class, 'getAll']);
 Route::get('/rating/selected/{beer}', [RatingController::class, 'getSelected']);
-Route::post('/rating/store/{beer}', [RatingController::class, 'store']);
+Route::post('/rating/store/{beer}/{tasting}', [RatingController::class, 'store']);
 Route::get('/rating/average/{beer}', [RatingController::class, 'getAvg']);
+Route::get('/rating/avg/{tasting}', [RatingController::class, 'getAvgRatingsByTasting']);
 
 //ADMIN
 Route::group(['middleware' => ['role:admin']], function () {
