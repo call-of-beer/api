@@ -63,10 +63,6 @@ Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    /
     Route::post('/tasting/{group}/{beer}', [\App\Http\Controllers\TastingController::class, 'store']);
     Route::patch('/tasting/{id}', [\App\Http\Controllers\TastingController::class, 'edit']);
     Route::delete('/tasting/{tasting}', [\App\Http\Controllers\TastingController::class, 'destroy']);
-<<<<<<< HEAD
-
-=======
->>>>>>> DH
     Route::get('/beer/all/my', [BeerController::class, 'getMyBeers']);
     Route::get('/beer/type/{type_beer}', [BeerController::class, 'getBeersOfType']);
     Route::get('/beer/country/{country}', [BeerController::class, 'getBeersOfCountry']);
