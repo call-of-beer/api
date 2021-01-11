@@ -63,7 +63,10 @@ Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    /
     Route::post('/tasting/{group}/{beer}', [\App\Http\Controllers\TastingController::class, 'store']);
     Route::patch('/tasting/{id}', [\App\Http\Controllers\TastingController::class, 'edit']);
     Route::delete('/tasting/{tasting}', [\App\Http\Controllers\TastingController::class, 'destroy']);
+<<<<<<< HEAD
 
+=======
+>>>>>>> DH
     Route::get('/beer/all/my', [BeerController::class, 'getMyBeers']);
     Route::get('/beer/type/{type_beer}', [BeerController::class, 'getBeersOfType']);
     Route::get('/beer/country/{country}', [BeerController::class, 'getBeersOfCountry']);
@@ -79,6 +82,9 @@ Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    /
     Route::get('/comment/my', [\App\Http\Controllers\CommentController::class, 'getMyComments']);
     Route::post('/comment/new/{tasting}', [\App\Http\Controllers\CommentController::class, 'store']);
     Route::delete('/comment/{comment}', [\App\Http\Controllers\CommentController::class, 'remove']);
+
+    //auth user
+    Route::get('/user/me', [\App\Http\Controllers\UserController::class, 'getAuthUser']);
 });
 
 Route::delete('/group/{group}', [GroupController::class, 'destroy']);
@@ -113,8 +119,9 @@ Route::delete('/rating/delete/{id}', [RatingController::class, 'delete']);
 
 Route::get('/rating/all', [RatingController::class, 'getAll']);
 Route::get('/rating/selected/{beer}', [RatingController::class, 'getSelected']);
-Route::post('/rating/store/{beer}', [RatingController::class, 'store']);
+Route::post('/rating/store/{beer}/{tasting}', [RatingController::class, 'store']);
 Route::get('/rating/average/{beer}', [RatingController::class, 'getAvg']);
+Route::get('/rating/avg/{tasting}', [RatingController::class, 'getAvgRatingsByTasting']);
 
 //ADMIN
 Route::group(['middleware' => ['role:admin']], function () {
@@ -126,4 +133,10 @@ Route::group(['middleware' => ['role:admin']], function () {
     //country
     Route::post('/country/new', [\App\Http\Controllers\CountryController::class, 'store']);
     Route::delete('/country/delete/{country}', [\App\Http\Controllers\CountryController::class, 'destroy']);
+
+    //users
+    Route::get('/users/all', [\App\Http\Controllers\UserController::class, 'index']);
+    Route::get('/users/admin', [\App\Http\Controllers\UserController::class, 'getAdmins']);
+    Route::get('/users/drinker', [\App\Http\Controllers\UserController::class, 'getDrinkers']);
+    Route::post('/register/new/admin', [AuthController::class, 'RegisterAdmin']);
 });

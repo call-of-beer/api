@@ -14,5 +14,5 @@ interface GetRatingServiceInterface
 
     public function getRatingOfUser($user);
 
-    public function getAverageAroma($beer);
+    public function getAvgRatingByTasting($tasting);
 }

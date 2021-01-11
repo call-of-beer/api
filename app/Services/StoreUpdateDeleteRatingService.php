@@ -10,7 +10,7 @@ class StoreUpdateDeleteRatingService implements CreateRatingServiceInterface
 {
     use ResponseDataTrait;
 
-    public function store($beer, $data)
+    public function store($beer, $data, $tasting)
     {
         $rating = new Rating;
         $rating->aroma = $data->aroma;
@@ -20,6 +20,7 @@ class StoreUpdateDeleteRatingService implements CreateRatingServiceInterface
         $rating->texture = $data->texture;
         $rating->beer_id = $beer->id;
         $rating->user_id = auth()->user()->id;
+        $rating->tasting_id = $tasting->id;
 
         if ($rating->save()) {
             return $this->responseWithData($rating, 201);

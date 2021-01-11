@@ -34,4 +34,9 @@ class Group extends Model
         return $this->hasMany(Tasting::class);
     }
 
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
 }

@@ -4,12 +4,6 @@ namespace App\Services;
 use App\Repositories\GetsGroupsRepository;
 use App\Services\Interfaces\GroupServiceInterface;
 use App\Traits\ResponseDataTrait;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Models\Group;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class GroupServices implements GroupServiceInterface
 {
@@ -25,7 +19,7 @@ class GroupServices implements GroupServiceInterface
     {
         $res = $this->getsGroupsRepository->getAllGroups();
         return $res ? $this->responseWithData($res, 200)
-            : $this->responseWithMessage('Groups base is empty', 404);
+            : $this->responseWithMessage('Groups Base is empty', 404);
     }
 
     public function getGroupById($group)

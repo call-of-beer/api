@@ -17,7 +17,6 @@ class UserObserver
      */
     public function created(User $user)
     {
-        $user->assignRole('drinker');
         Mail::to($user->email)->send(new WelcomeNewUser());
     }
 }

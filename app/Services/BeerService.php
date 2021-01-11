@@ -23,36 +23,48 @@ class BeerService implements BeerServiceInterface
     public function getAllBeers()
     {
         $res = $this->beergetsrepository->getAll();
-        return $res ? $this->responseWithData($res, 200) : $this->responseWithMessage('Not found', 404);
+        return $res
+            ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Not found', 404);
     }
 
     public function getAllMyBeers()
     {
         $res = $this->beergetsrepository->getAllMy();
-        return $res ? $this->responseWithData($res, 200) : $this->responseWithMessage('Not found', 404);
+        return $res
+            ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Not found', 404);
     }
 
     public function getBeerById($beer)
     {
-        $res = $this->beergetsrepository->getBeer($beer);
-        return $res ? $this->responseWithData($res, 200) : $this->responseWithMessage('Not found', 404);
+        $res = $this->beergetsrepository->getById($beer->id);
+        return $res
+            ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Not found', 404);
     }
 
     public function getBeerOfType($typeBeer)
     {
         $res = $this->beergetsrepository->getOfType($typeBeer);
-        return $res ? $this->responseWithData($res, 200) : $this->responseWithMessage('Not found', 404);
+        return $res
+            ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Not found', 404);
     }
 
     public function getBeerOfCountry($country)
     {
         $res = $this->beergetsrepository->getOfCountry($country);
-        return $res ? $this->responseWithData($res, 200) : $this->responseWithMessage('Not found', 404);
+        return $res
+            ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Not found', 404);
     }
 
     public function getBeerOfTasting($tasting)
     {
         $res = $this->beergetsrepository->getOfTasting($tasting);
-        return $res ? $this->responseWithData($res, 200) : $this->responseWithMessage('Not found', 404);
+        return $res
+            ? $this->responseWithData($res, 200)
+            : $this->responseWithMessage('Not found', 404);
     }
 }

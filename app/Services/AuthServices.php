@@ -23,6 +23,20 @@ class AuthServices implements AuthServicesInterface
         $newUser->surname = $data->surname;
         $newUser->email = $data->email;
         $newUser->password = bcrypt($data->password);
+        $newUser->assignRole('drinker');
+        $newUser->save();
+
+        return $newUser;
+    }
+
+    public function registerAdmin($data)
+    {
+        $newUser = new User();
+        $newUser->firstname = $data->firstname;
+        $newUser->surname = $data->surname;
+        $newUser->email = $data->email;
+        $newUser->password = bcrypt($data->password);
+        $newUser->assignRole('admin');
         $newUser->save();
 
         return $newUser;

@@ -16,6 +16,10 @@ class Country extends Model
         'shortcut'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d'
+    ];
+
     public function beers()
     {
         return $this->hasMany(Beer::class);

@@ -22,7 +22,6 @@ class AuthController extends Controller
     {
         return $request->validated() ? $this->authServices->Login($request)
             : $this->responseWithMessage('Error', 401);
-
     }
 
     public function Register(RegisterRequest $request)
@@ -30,6 +29,18 @@ class AuthController extends Controller
         if ($request->validated())
         {
             $result = $this->authServices->Register($request);
+            return response()->json($result, 200);
+
+        } else {
+            return $this->responseWithError($request);
+        }
+    }
+
+    public function RegisterAdmin(RegisterRequest $request)
+    {
+        if ($request->validated())
+        {
+            $result = $this->authServices->registerAdmin($request);
             return response()->json($result, 200);
 
         } else {
