@@ -42,7 +42,8 @@ class TastingController extends Controller
 
     public function destroy(Tasting $tasting)
     {
-        return $tasting->delete() ? $this->responseWithMessage('Tasting has been destroyed', 200)
+        return $tasting->delete()
+            ? $this->responseWithMessage('Tasting has been destroyed', 200)
             : $this->responseWithMessage('Not found', 404);
     }
 }

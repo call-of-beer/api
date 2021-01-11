@@ -5,20 +5,24 @@ namespace App\Repositories;
 
 
 use App\Models\Country;
-use App\Repositories\Interfaces\GetsCountriesRepositoryInterface;
-use App\Repositories\Interfaces\GetsGroupsRepositoryInterface;
+use App\Repositories\Base\BaseRepository;
 
-class GetCountriesRepository implements GetsCountriesRepositoryInterface
+class GetCountriesRepository extends BaseRepository
 {
     public function getAll()
     {
         return Country::with('beers')->get();
     }
 
-    public function getCountry($country)
+    public function getById($id)
     {
         return Country::with('beers')
-            ->where('id', $country->id)
+            ->where('id', $id)
             ->get();
+    }
+
+    public function getAllMy()
+    {
+        // TODO: Implement getAllMy() method.
     }
 }

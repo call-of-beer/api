@@ -5,10 +5,11 @@ namespace App\Repositories;
 
 
 use App\Models\Rating;
+use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\GetRatingsRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
-class GetRatingsRepository implements GetRatingsRepositoryInterface
+class GetRatingsRepository extends BaseRepository implements GetRatingsRepositoryInterface
 {
     public function getAll()
     {
@@ -30,15 +31,20 @@ class GetRatingsRepository implements GetRatingsRepositoryInterface
             ->get();
     }
 
-    public function getRatingById($rating)
+    public function getById($id)
     {
         return DB::table('ratings')
-            ->where('id', $rating->id)
+            ->where('id', $id)
             ->get();
     }
 
     public function getAvgRatingByTasting($tasting)
     {
         // TODO: Implement getAvgRatingByTasting() method.
+    }
+
+    public function getAllMy()
+    {
+        // TODO: Implement getAllMy() method.
     }
 }

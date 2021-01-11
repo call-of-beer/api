@@ -22,7 +22,6 @@ class AuthController extends Controller
     {
         return $request->validated() ? $this->authServices->Login($request)
             : $this->responseWithMessage('Error', 401);
-
     }
 
     public function Register(RegisterRequest $request)

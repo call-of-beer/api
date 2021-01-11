@@ -33,7 +33,7 @@ class CountryService implements CountryServiceInterface
     public function getCountry($country)
     {
         $countries = $country
-            ? $this->getcountriesRepository->getCountry($country)
+            ? $this->getcountriesRepository->getById($country->id)
             : false;
         return $this->responseWithData($countries, 200);
     }

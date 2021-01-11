@@ -19,7 +19,7 @@ class GroupServices implements GroupServiceInterface
     {
         $res = $this->getsGroupsRepository->getAllGroups();
         return $res ? $this->responseWithData($res, 200)
-            : $this->responseWithMessage('Groups base is empty', 404);
+            : $this->responseWithMessage('Groups Base is empty', 404);
     }
 
     public function getGroupById($group)

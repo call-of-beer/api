@@ -5,23 +5,32 @@ namespace App\Repositories;
 
 
 use App\Models\Comment;
+use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\GetsCommentsRepositoryInterface;
 
-class GetsCommentsRepository implements GetsCommentsRepositoryInterface
+class GetsCommentsRepository extends BaseRepository implements GetsCommentsRepositoryInterface
 {
     public function getCommentsOfTasting($tasting)
     {
-        $result = Comment::with('user')
+        return Comment::with('user')
             ->where('tasting_id', $tasting->id)
             ->get();
-        return $result;
     }
 
-    public function getMyComments()
+    public function getAllMy()
     {
-        $result = Comment::with('user')
+        return Comment::with('user')
             ->where('user_id', auth()->user()->id)
             ->get();
-        return $result;
+    }
+
+    public function getAll()
+    {
+        // TODO: Implement getAll() method.
+    }
+
+    public function getById($id)
+    {
+        // TODO: Implement getById() method.
     }
 }

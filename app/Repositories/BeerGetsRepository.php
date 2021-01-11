@@ -3,9 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\Beer;
+use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\BeerGetsRepositoryInterface;
 
-class BeerGetsRepository implements BeerGetsRepositoryInterface
+class BeerGetsRepository extends BaseRepository implements BeerGetsRepositoryInterface
 {
     public function getAll()
     {
@@ -20,10 +21,10 @@ class BeerGetsRepository implements BeerGetsRepositoryInterface
             ->get();
     }
 
-    public function getBeer($beer)
+    public function getById($id)
     {
         return Beer::with(['user', 'ratings'])
-            ->where('id', $beer->id)
+            ->where('id', $id)
             ->get();
     }
 
