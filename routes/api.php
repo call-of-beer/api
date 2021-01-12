@@ -57,12 +57,14 @@ Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    /
 
     Route::get('/user/group/all/', [GroupController::class, 'getAllMyGroups']);
     Route::get('/user/group/all/member', [GroupController::class, 'getGroupsWhereUserIsMember']);
+
     Route::get('/tastings', [\App\Http\Controllers\TastingController::class, 'index']);
     Route::get('/tastings/{group}', [\App\Http\Controllers\TastingController::class, 'getTastingOfGroup']);
     Route::get('/tasting/{tasting}', [\App\Http\Controllers\TastingController::class, 'getTasting']);
     Route::post('/tasting/{group}/{beer}', [\App\Http\Controllers\TastingController::class, 'store']);
     Route::patch('/tasting/{id}', [\App\Http\Controllers\TastingController::class, 'edit']);
     Route::delete('/tasting/{tasting}', [\App\Http\Controllers\TastingController::class, 'destroy']);
+
     Route::get('/beer/all/my', [BeerController::class, 'getMyBeers']);
     Route::get('/beer/type/{type_beer}', [BeerController::class, 'getBeersOfType']);
     Route::get('/beer/country/{country}', [BeerController::class, 'getBeersOfCountry']);
@@ -81,6 +83,7 @@ Route::group(['middleware' => ['api', 'role:drinker|admin']], function () {    /
 
     //auth user
     Route::get('/user/me', [\App\Http\Controllers\UserController::class, 'getAuthUser']);
+    Route::delete('/user/delete/{id}', [\App\Http\Controllers\UserController::class, 'destroy']);
 });
 
 Route::delete('/group/{group}', [GroupController::class, 'destroy']);
@@ -96,6 +99,8 @@ Route::group([
 
 //open routes
 
+Route::post('/search', [\App\Http\Controllers\SearchController::class, '__invoke']);
+
 Route::get('/country', [\App\Http\Controllers\CountryController::class, 'index']);
 Route::get('/country/{country}', [\App\Http\Controllers\CountryController::class, 'getCountry']);
 Route::get('/type', [\App\Http\Controllers\TypeBeerController::class, 'index']);
@@ -104,7 +109,7 @@ Route::get('/type/{typeBeer}', [\App\Http\Controllers\TypeBeerController::class,
 
 Route::get('/beers', [BeerController::class, 'getAll']);
 
-Route::post('/rating/store/{beer}', [RatingController::class, 'store']);
+Route::post('/rating/store/{beer}/{tasting}', [RatingController::class, 'store']);
 Route::get('/rating/all', [RatingController::class, 'getAll']);
 Route::get('/rating/{id}', [RatingController::class, 'show']);
 Route::get('/rating/user/{user_id}', [RatingController::class, 'userRating']);

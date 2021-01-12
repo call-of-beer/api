@@ -49,4 +49,17 @@ class UserService implements UserServiceInterface
             ? $this->responseWithData($res, 200)
             : $this->responseWithMessage('Not found', 404);
     }
+
+    public function destroy($user)
+    {
+
+        if($user->id != Auth::user()->id && Auth::user()->hasRole('admin')==false)
+        {
+            return $this->responseWithMessage('Can not delete user',401);
+        }
+
+        $user->delete();
+        return $this->responseWithMessage('User has been removed',200);
+    }
+
 }

@@ -13,6 +13,6 @@ class CountrySeeder extends Seeder
      */
     public function run()
     {
-        //
+        $country = \App\Models\Country::factory()->count(10)->create();
     }
 }

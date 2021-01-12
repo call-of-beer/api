@@ -22,7 +22,8 @@ class CountryFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name'=>$this->faker->word,
+            'shortcut'=>$this->faker->word,
         ];
     }
 }

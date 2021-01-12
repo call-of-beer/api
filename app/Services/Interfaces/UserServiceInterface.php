@@ -13,4 +13,6 @@ interface UserServiceInterface
     public function getUsersDrinker();
 
     public function getUserDetails();
+
+    public function destroy($user);
 }

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class TypeBeerSeeder extends Seeder
+class BeerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,6 +13,6 @@ class TypeBeerSeeder extends Seeder
      */
     public function run()
     {
-        $types = \App\Models\TypeBeer::factory()->count(10)->create();
+        $beers = \App\Models\Beer::factory()->count(10)->create();
     }
 }

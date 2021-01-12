@@ -36,7 +36,7 @@ class LoginTest extends TestCase
         ]);
 
 
-        $response = $this->json('POST', '/api/login', [
+        $response = $this->json('POST', '/api/auth/login', [
             'email' => '11essmaidsdsddl@example.com',
             'password' => 'secret'
         ]);
@@ -56,7 +56,7 @@ class LoginTest extends TestCase
         ]);
 
 
-        $response = $this->json('POST', '/api/login', [
+        $response = $this->json('POST', '/api/auth/login', [
             'email' => '11essmaidsdsddl@example.com',
             'password' => 'innehaslo'
         ]);

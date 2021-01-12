@@ -34,4 +34,9 @@ class UserController extends Controller
     {
         return $this->userService->getUserDetails();
     }
+
+    public function destroy(User $user)
+    {
+        return $this->userService->destroy($user);
+    }
 }
