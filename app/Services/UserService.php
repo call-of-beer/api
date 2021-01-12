@@ -53,7 +53,7 @@ class UserService implements UserServiceInterface
     public function destroy($user)
     {
 
-        if($user->id != Auth::user()->id && Auth::user()->hasRole('admin')==false)
+        if($user->id != auth()->user()->id && auth()->user()->hasRole('admin')==false)
         {
             return $this->responseWithMessage('Can not delete user',401);
         }
